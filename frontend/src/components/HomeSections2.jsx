@@ -19,8 +19,8 @@ export const Testimonials = () => {
       <div className="max-w-7xl mx-auto px-6">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
           <div>
-            <div className="text-[#E86C2C] text-sm font-semibold uppercase tracking-wider mb-3">Testimonials</div>
-            <h2 className="text-3xl md:text-4xl font-bold text-[#1A3C5E] tracking-tight mb-3">
+            <div className="text-[#FF2A2A] text-sm font-semibold uppercase tracking-wider mb-3">Testimonials</div>
+            <h2 className="text-3xl md:text-4xl font-bold text-[#003D52] tracking-tight mb-3">
               What Our Travelers Say
             </h2>
             <p className="text-slate-600 max-w-xl">
@@ -47,19 +47,19 @@ export const Testimonials = () => {
                 key={t.id}
                 className="flex-shrink-0 w-full md:w-[calc(50%-0.75rem)] lg:w-[calc(33.333%-1rem)] bg-gradient-to-br from-slate-50 to-white border border-slate-200 rounded-2xl p-6 relative"
               >
-                <Quote className="absolute top-5 right-5 w-8 h-8 text-[#E86C2C]/15" />
+                <Quote className="absolute top-5 right-5 w-8 h-8 text-[#FF2A2A]/15" />
                 <div className="flex gap-0.5 mb-4">
                   {[...Array(t.rating)].map((_, i) => (
-                    <Star key={i} className="w-4 h-4 fill-[#F5A623] text-[#F5A623]" />
+                    <Star key={i} className="w-4 h-4 fill-[#00C2E6] text-[#00C2E6]" />
                   ))}
                 </div>
                 <p className="text-sm text-slate-700 leading-relaxed mb-5">{t.text}</p>
                 <div className="flex items-center gap-3 pt-4 border-t border-slate-100">
-                  <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#1A3C5E] to-[#2c5985] text-white flex items-center justify-center font-bold text-sm">
+                  <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#003D52] to-[#00A6D6] text-white flex items-center justify-center font-bold text-sm">
                     {t.avatar}
                   </div>
                   <div>
-                    <div className="font-semibold text-[#1A3C5E] text-sm">{t.name}</div>
+                    <div className="font-semibold text-[#003D52] text-sm">{t.name}</div>
                     <div className="text-xs text-slate-500">{t.location}</div>
                   </div>
                 </div>
@@ -76,8 +76,8 @@ export const FAQ = () => (
   <section className="py-20 bg-slate-50">
     <div className="max-w-4xl mx-auto px-6">
       <div className="text-center mb-12">
-        <div className="text-[#E86C2C] text-sm font-semibold uppercase tracking-wider mb-3">FAQ</div>
-        <h2 className="text-3xl md:text-4xl font-bold text-[#1A3C5E] tracking-tight mb-4">
+        <div className="text-[#FF2A2A] text-sm font-semibold uppercase tracking-wider mb-3">FAQ</div>
+        <h2 className="text-3xl md:text-4xl font-bold text-[#003D52] tracking-tight mb-4">
           Frequently Asked Questions
         </h2>
         <p className="text-slate-600">
@@ -90,9 +90,9 @@ export const FAQ = () => (
           <AccordionItem
             key={faq.id}
             value={`item-${faq.id}`}
-            className="bg-white border border-slate-200 rounded-xl px-5 data-[state=open]:border-[#E86C2C]/40 data-[state=open]:shadow-md"
+            className="bg-white border border-slate-200 rounded-xl px-5 data-[state=open]:border-[#FF2A2A]/40 data-[state=open]:shadow-md"
           >
-            <AccordionTrigger className="text-left text-[#1A3C5E] font-semibold hover:no-underline py-5">
+            <AccordionTrigger className="text-left text-[#003D52] font-semibold hover:no-underline py-5">
               {faq.question}
             </AccordionTrigger>
             <AccordionContent className="text-slate-600 leading-relaxed pb-5">
@@ -108,13 +108,13 @@ export const FAQ = () => (
 export const CTA = () => (
   <section className="py-16 bg-white">
     <div className="max-w-7xl mx-auto px-6">
-      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-[#1A3C5E] via-[#1F4870] to-[#1A3C5E] p-10 md:p-14">
-        <div className="absolute top-0 right-0 w-72 h-72 rounded-full bg-[#F5A623]/20 blur-3xl" />
-        <div className="absolute bottom-0 left-0 w-72 h-72 rounded-full bg-[#E86C2C]/20 blur-3xl" />
+      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-[#003D52] via-[#005C75] to-[#003D52] p-10 md:p-14">
+        <div className="absolute top-0 right-0 w-72 h-72 rounded-full bg-[#00C2E6]/20 blur-3xl" />
+        <div className="absolute bottom-0 left-0 w-72 h-72 rounded-full bg-[#FF2A2A]/20 blur-3xl" />
         <div className="relative grid md:grid-cols-2 gap-8 items-center">
           <div>
             <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm rounded-full px-3 py-1 mb-4">
-              <Plane className="w-3.5 h-3.5 text-[#F5A623] -rotate-45" />
+              <Plane className="w-3.5 h-3.5 text-[#00C2E6] -rotate-45" />
               <span className="text-xs font-medium text-white">Ready to fly?</span>
             </div>
             <h2 className="text-3xl md:text-4xl font-bold text-white leading-tight mb-4">
@@ -125,12 +125,12 @@ export const CTA = () => (
             </p>
             <div className="flex flex-wrap gap-3">
               <Link to="/apply">
-                <Button className="bg-[#E86C2C] hover:bg-[#d05f24] text-white px-7 h-12 font-semibold gap-2">
+                <Button className="bg-[#FF2A2A] hover:bg-[#E01F1F] text-white px-7 h-12 font-semibold gap-2">
                   Apply Now <ArrowRight className="w-4 h-4" />
                 </Button>
               </Link>
               <Link to="/contact">
-                <Button variant="outline" className="bg-transparent border-white/30 text-white hover:bg-white hover:text-[#1A3C5E] h-12 px-7">
+                <Button variant="outline" className="bg-transparent border-white/30 text-white hover:bg-white hover:text-[#003D52] h-12 px-7">
                   Talk to Expert
                 </Button>
               </Link>

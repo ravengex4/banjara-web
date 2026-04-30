@@ -30,7 +30,7 @@ const Visa = () => {
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search by country name..."
-            className="pl-11 h-12 border-slate-300 focus-visible:ring-[#E86C2C]"
+            className="pl-11 h-12 border-slate-300 focus-visible:ring-[#FF2A2A]"
           />
         </div>
         <div className="flex gap-2 overflow-x-auto">
@@ -39,7 +39,7 @@ const Visa = () => {
               key={f}
               onClick={() => setFilter(f)}
               className={`px-5 h-12 rounded-md text-sm font-medium whitespace-nowrap transition-all ${
-                filter === f ? 'bg-[#1A3C5E] text-white' : 'bg-white text-slate-600 border border-slate-300 hover:border-[#1A3C5E]'
+                filter === f ? 'bg-[#003D52] text-white' : 'bg-white text-slate-600 border border-slate-300 hover:border-[#003D52]'
               }`}
             >
               {f}
@@ -57,13 +57,13 @@ const Visa = () => {
         {filtered.map(visa => (
           <div
             key={visa.id}
-            className="group bg-white rounded-2xl overflow-hidden border border-slate-200 hover:border-[#E86C2C]/40 hover:shadow-xl hover:-translate-y-1 transition-all"
+            className="group bg-white rounded-2xl overflow-hidden border border-slate-200 hover:border-[#FF2A2A]/40 hover:shadow-xl hover:-translate-y-1 transition-all"
           >
             <div className="relative h-36 overflow-hidden bg-slate-100">
               <img src={visa.flag} alt={visa.country} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
               <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
               {visa.popular && (
-                <Badge className="absolute top-3 right-3 bg-[#F5A623] hover:bg-[#F5A623] text-white border-0 text-[10px]">POPULAR</Badge>
+                <Badge className="absolute top-3 right-3 bg-[#00C2E6] hover:bg-[#00C2E6] text-white border-0 text-[10px]">POPULAR</Badge>
               )}
               <div className="absolute bottom-3 left-3 text-white">
                 <div className="text-xs opacity-90">{visa.type}</div>
@@ -77,10 +77,10 @@ const Visa = () => {
               <div className="flex items-end justify-between">
                 <div>
                   <div className="text-[10px] uppercase tracking-wider text-slate-500 font-semibold">{visa.visaType}</div>
-                  <div className="text-base font-bold text-[#1A3C5E]">{visa.price}</div>
+                  <div className="text-base font-bold text-[#003D52]">{visa.price}</div>
                 </div>
                 <Link to="/apply">
-                  <Button size="sm" variant="ghost" className="text-[#E86C2C] hover:bg-[#E86C2C]/10 hover:text-[#E86C2C]">
+                  <Button size="sm" variant="ghost" className="text-[#FF2A2A] hover:bg-[#FF2A2A]/10 hover:text-[#FF2A2A]">
                     Apply <ArrowRight className="w-3.5 h-3.5 ml-1" />
                   </Button>
                 </Link>
