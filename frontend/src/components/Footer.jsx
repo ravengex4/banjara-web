@@ -1,17 +1,30 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Plane, MapPin, Phone, Mail, Facebook, Instagram, Linkedin, Twitter, Send } from 'lucide-react';
+import { Plane, MapPin, Phone, Mail, Facebook, Instagram, Linkedin, Twitter, Send, Loader2 } from 'lucide-react';
 import { Input } from './ui/input';
 import { Button } from './ui/button';
 import { useToast } from '../hooks/use-toast';
+import { supabase } from '../lib/supabase';
 
 const Footer = () => {
   const [email, setEmail] = useState('');
+  const [submitting, setSubmitting] = useState(false);
   const { toast } = useToast();
 
-  const handleSubscribe = (e) => {
+  const handleSubscribe = async (e) => {
     e.preventDefault();
     if (!email) return;
+    setSubmitting(true);
+    const { error } = await supabase.from('newsletter_subscribers').insert({ email });
+    setSubmitting(false);
+    if (error) {
+      if (error.code === '23505') {
+        toast({ title: 'Already subscribed', description: 'This email is already on our list.' });
+      } else {
+        toast({ title: 'Subscription failed', description: error.message });
+      }
+      return;
+    }
     toast({ title: 'Subscribed!', description: 'You will receive our latest visa updates.' });
     setEmail('');
   };
@@ -97,8 +110,8 @@ const Footer = () => {
                 onChange={(e) => setEmail(e.target.value)}
                 className="bg-white/10 border-white/20 text-white placeholder:text-slate-500 focus-visible:ring-[#00C2E6]"
               />
-              <Button type="submit" size="icon" className="bg-[#FF2A2A] hover:bg-[#E01F1F] flex-shrink-0">
-                <Send className="w-4 h-4" />
+              <Button type="submit" size="icon" disabled={submitting} className="bg-[#FF2A2A] hover:bg-[#E01F1F] flex-shrink-0">
+                {submitting ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}
               </Button>
             </form>
           </div>

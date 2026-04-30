@@ -8,18 +8,34 @@ import { Button } from '../components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../components/ui/select';
 import { offices } from '../mock';
 import { useToast } from '../hooks/use-toast';
+import { supabase } from '../lib/supabase';
+import { Loader2 } from 'lucide-react';
 
 const Contact = () => {
   const [data, setData] = useState({ name: '', email: '', phone: '', subject: '', message: '' });
   const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
   const { toast } = useToast();
 
   const update = (k, v) => setData(d => ({ ...d, [k]: v }));
 
-  const submit = (e) => {
+  const submit = async (e) => {
     e.preventDefault();
     if (!data.name || !data.email || !data.message) {
       toast({ title: 'Please fill all required fields' });
+      return;
+    }
+    setSubmitting(true);
+    const { error } = await supabase.from('contact_submissions').insert({
+      name: data.name,
+      email: data.email,
+      phone: data.phone || null,
+      subject: data.subject || null,
+      message: data.message,
+    });
+    setSubmitting(false);
+    if (error) {
+      toast({ title: 'Submission failed', description: error.message });
       return;
     }
     setSubmitted(true);
@@ -84,8 +100,9 @@ const Contact = () => {
                 </div>
               </div>
               <div><Label className="text-[#003D52] text-sm font-medium mb-2 block">Message *</Label><Textarea rows={5} value={data.message} onChange={(e) => update('message', e.target.value)} /></div>
-              <Button type="submit" className="bg-[#FF2A2A] hover:bg-[#E01F1F] text-white h-12 px-7 gap-2 w-full sm:w-auto">
-                Send Message <Send className="w-4 h-4" />
+              <Button type="submit" disabled={submitting} className="bg-[#FF2A2A] hover:bg-[#E01F1F] text-white h-12 px-7 gap-2 w-full sm:w-auto">
+                {submitting ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}
+                {submitting ? 'Sending...' : 'Send Message'}
               </Button>
             </form>
           )}

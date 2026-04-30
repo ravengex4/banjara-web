@@ -1,12 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { SimplePage } from './PageHeader';
-import { Briefcase, TrendingUp, Users, FileCheck, Check, ArrowRight } from 'lucide-react';
+import { Briefcase, TrendingUp, Users, FileCheck, Check, ArrowRight, Loader2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Button } from '../components/ui/button';
 import { Input } from '../components/ui/input';
 import { Label } from '../components/ui/label';
 import { Textarea } from '../components/ui/textarea';
 import { useToast } from '../hooks/use-toast';
+import { supabase } from '../lib/supabase';
 
 const benefits = [
   { icon: TrendingUp, title: 'Competitive Margins', text: 'Get the best B2B rates with transparent commission structure on every visa.' },
@@ -17,6 +18,38 @@ const benefits = [
 
 const B2B = () => {
   const { toast } = useToast();
+  const [data, setData] = useState({ agency_name: '', contact_person: '', designation: '', email: '', phone: '', city: '', description: '' });
+  const [submitting, setSubmitting] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+  const update = (k, v) => setData(d => ({ ...d, [k]: v }));
+
+  const submit = async (e) => {
+    e.preventDefault();
+    if (!data.agency_name || !data.contact_person || !data.email || !data.phone) {
+      toast({ title: 'Please fill all required fields' });
+      return;
+    }
+    setSubmitting(true);
+    const { error } = await supabase.from('b2b_registrations').insert({
+      agency_name: data.agency_name,
+      contact_person: data.contact_person,
+      designation: data.designation || null,
+      email: data.email,
+      phone: data.phone,
+      city: data.city || null,
+      description: data.description || null,
+    });
+    setSubmitting(false);
+    if (error) {
+      toast({ title: 'Submission failed', description: error.message });
+      return;
+    }
+    setSubmitted(true);
+    toast({ title: 'Application received!', description: 'Our team will reach out within 24 hours.' });
+    setData({ agency_name: '', contact_person: '', designation: '', email: '', phone: '', city: '', description: '' });
+    setTimeout(() => setSubmitted(false), 4000);
+  };
+
   return (
     <SimplePage title="B2B Partner Portal" subtitle="Become a Banjara sub-agent and grow your travel agency with reliable visa services." breadcrumb="B2B Partner">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 mb-16">
@@ -61,26 +94,37 @@ const B2B = () => {
           </Link>
         </div>
 
-        <form
-          onSubmit={(e) => { e.preventDefault(); toast({ title: 'Application received!', description: 'Our team will reach out within 24 hours.' }); }}
-          className="bg-white border border-slate-200 rounded-2xl p-7 shadow-sm space-y-4"
-        >
+        <form onSubmit={submit} className="bg-white border border-slate-200 rounded-2xl p-7 shadow-sm space-y-4">
           <h3 className="text-2xl font-bold text-[#003D52] mb-1">Register as Partner</h3>
           <p className="text-sm text-slate-600 mb-2">Tell us about your agency.</p>
-          <div><Label className="text-[#003D52] text-sm font-medium mb-2 block">Agency Name *</Label><Input className="h-11" /></div>
-          <div className="grid sm:grid-cols-2 gap-4">
-            <div><Label className="text-[#003D52] text-sm font-medium mb-2 block">Contact Person *</Label><Input className="h-11" /></div>
-            <div><Label className="text-[#003D52] text-sm font-medium mb-2 block">Designation</Label><Input className="h-11" /></div>
-          </div>
-          <div className="grid sm:grid-cols-2 gap-4">
-            <div><Label className="text-[#003D52] text-sm font-medium mb-2 block">Email *</Label><Input type="email" className="h-11" /></div>
-            <div><Label className="text-[#003D52] text-sm font-medium mb-2 block">Phone *</Label><Input className="h-11" /></div>
-          </div>
-          <div><Label className="text-[#003D52] text-sm font-medium mb-2 block">City</Label><Input className="h-11" /></div>
-          <div><Label className="text-[#003D52] text-sm font-medium mb-2 block">Tell us about your agency</Label><Textarea rows={3} /></div>
-          <Button type="submit" className="w-full bg-[#FF2A2A] hover:bg-[#E01F1F] text-white h-12 gap-2 font-semibold">
-            Submit Partner Application <ArrowRight className="w-4 h-4" />
-          </Button>
+          {submitted ? (
+            <div className="py-10 text-center">
+              <div className="w-14 h-14 rounded-full bg-[#FF2A2A]/10 flex items-center justify-center mx-auto mb-3">
+                <Check className="w-7 h-7 text-[#FF2A2A]" strokeWidth={3} />
+              </div>
+              <h4 className="text-lg font-bold text-[#003D52] mb-1">Application received!</h4>
+              <p className="text-sm text-slate-600">Our partnership team will reach out within 24 hours.</p>
+            </div>
+          ) : (
+            <>
+              <div><Label className="text-[#003D52] text-sm font-medium mb-2 block">Agency Name *</Label><Input value={data.agency_name} onChange={(e) => update('agency_name', e.target.value)} className="h-11" /></div>
+              <div className="grid sm:grid-cols-2 gap-4">
+                <div><Label className="text-[#003D52] text-sm font-medium mb-2 block">Contact Person *</Label><Input value={data.contact_person} onChange={(e) => update('contact_person', e.target.value)} className="h-11" /></div>
+                <div><Label className="text-[#003D52] text-sm font-medium mb-2 block">Designation</Label><Input value={data.designation} onChange={(e) => update('designation', e.target.value)} className="h-11" /></div>
+              </div>
+              <div className="grid sm:grid-cols-2 gap-4">
+                <div><Label className="text-[#003D52] text-sm font-medium mb-2 block">Email *</Label><Input type="email" value={data.email} onChange={(e) => update('email', e.target.value)} className="h-11" /></div>
+                <div><Label className="text-[#003D52] text-sm font-medium mb-2 block">Phone *</Label><Input value={data.phone} onChange={(e) => update('phone', e.target.value)} className="h-11" /></div>
+              </div>
+              <div><Label className="text-[#003D52] text-sm font-medium mb-2 block">City</Label><Input value={data.city} onChange={(e) => update('city', e.target.value)} className="h-11" /></div>
+              <div><Label className="text-[#003D52] text-sm font-medium mb-2 block">Tell us about your agency</Label><Textarea rows={3} value={data.description} onChange={(e) => update('description', e.target.value)} /></div>
+              <Button type="submit" disabled={submitting} className="w-full bg-[#FF2A2A] hover:bg-[#E01F1F] text-white h-12 gap-2 font-semibold">
+                {submitting ? <Loader2 className="w-4 h-4 animate-spin" /> : null}
+                {submitting ? 'Submitting...' : 'Submit Partner Application'}
+                {!submitting && <ArrowRight className="w-4 h-4" />}
+              </Button>
+            </>
+          )}
         </form>
       </div>
     </SimplePage>
