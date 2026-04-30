@@ -1,0 +1,99 @@
+import React, { useState } from 'react';
+import { SimplePage } from './PageHeader';
+import { Search, Clock, ArrowRight, Filter } from 'lucide-react';
+import { Input } from '../components/ui/input';
+import { Button } from '../components/ui/button';
+import { Badge } from '../components/ui/badge';
+import { countryVisas } from '../mock';
+import { Link } from 'react-router-dom';
+
+const Visa = () => {
+  const [search, setSearch] = useState('');
+  const [filter, setFilter] = useState('All');
+
+  const filtered = countryVisas.filter(v => {
+    const matchesSearch = v.country.toLowerCase().includes(search.toLowerCase());
+    const matchesFilter = filter === 'All' || v.visaType === filter || (filter === 'Tourist' && v.type.includes('Tourist')) || (filter === 'Business' && v.type.includes('Business'));
+    return matchesSearch && matchesFilter;
+  });
+
+  return (
+    <SimplePage
+      title="Visa Services"
+      subtitle="Apply visa for 150+ countries with transparent pricing and expert document review."
+      breadcrumb="Visa"
+    >
+      <div className="flex flex-col md:flex-row gap-3 mb-8">
+        <div className="flex-1 relative">
+          <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+          <Input
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            placeholder="Search by country name..."
+            className="pl-11 h-12 border-slate-300 focus-visible:ring-[#E86C2C]"
+          />
+        </div>
+        <div className="flex gap-2 overflow-x-auto">
+          {['All', 'Tourist', 'Business', 'e-Visa', 'Stamp Visa'].map(f => (
+            <button
+              key={f}
+              onClick={() => setFilter(f)}
+              className={`px-5 h-12 rounded-md text-sm font-medium whitespace-nowrap transition-all ${
+                filter === f ? 'bg-[#1A3C5E] text-white' : 'bg-white text-slate-600 border border-slate-300 hover:border-[#1A3C5E]'
+              }`}
+            >
+              {f}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <div className="flex items-center gap-2 text-sm text-slate-600 mb-5">
+        <Filter className="w-4 h-4" />
+        <span>Showing {filtered.length} {filtered.length === 1 ? 'country' : 'countries'}</span>
+      </div>
+
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
+        {filtered.map(visa => (
+          <div
+            key={visa.id}
+            className="group bg-white rounded-2xl overflow-hidden border border-slate-200 hover:border-[#E86C2C]/40 hover:shadow-xl hover:-translate-y-1 transition-all"
+          >
+            <div className="relative h-36 overflow-hidden bg-slate-100">
+              <img src={visa.flag} alt={visa.country} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
+              {visa.popular && (
+                <Badge className="absolute top-3 right-3 bg-[#F5A623] hover:bg-[#F5A623] text-white border-0 text-[10px]">POPULAR</Badge>
+              )}
+              <div className="absolute bottom-3 left-3 text-white">
+                <div className="text-xs opacity-90">{visa.type}</div>
+                <div className="font-bold text-sm">{visa.country}</div>
+              </div>
+            </div>
+            <div className="p-4">
+              <div className="flex items-center gap-1.5 text-xs text-slate-500 mb-2">
+                <Clock className="w-3.5 h-3.5" /><span>{visa.processingTime}</span>
+              </div>
+              <div className="flex items-end justify-between">
+                <div>
+                  <div className="text-[10px] uppercase tracking-wider text-slate-500 font-semibold">{visa.visaType}</div>
+                  <div className="text-base font-bold text-[#1A3C5E]">{visa.price}</div>
+                </div>
+                <Link to="/apply">
+                  <Button size="sm" variant="ghost" className="text-[#E86C2C] hover:bg-[#E86C2C]/10 hover:text-[#E86C2C]">
+                    Apply <ArrowRight className="w-3.5 h-3.5 ml-1" />
+                  </Button>
+                </Link>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+      {filtered.length === 0 && (
+        <div className="text-center py-20 text-slate-500">No countries match your search.</div>
+      )}
+    </SimplePage>
+  );
+};
+
+export default Visa;

@@ -1,0 +1,151 @@
+import React, { useState } from 'react';
+import { SimplePage } from './PageHeader';
+import { Button } from '../components/ui/button';
+import { Input } from '../components/ui/input';
+import { Label } from '../components/ui/label';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../components/ui/select';
+import { Textarea } from '../components/ui/textarea';
+import { Check, MapPin, User, Upload, FileCheck, ArrowRight, ArrowLeft } from 'lucide-react';
+import { countryVisas } from '../mock';
+import { useToast } from '../hooks/use-toast';
+
+const stepsList = [
+  { id: 1, label: 'Select Visa', icon: MapPin },
+  { id: 2, label: 'Customer Details', icon: User },
+  { id: 3, label: 'Upload Documents', icon: Upload },
+  { id: 4, label: 'Submitted', icon: FileCheck },
+];
+
+const Apply = () => {
+  const [step, setStep] = useState(1);
+  const [data, setData] = useState({
+    country: '', visaType: '', name: '', email: '', phone: '', dob: '', passport: '', nationality: 'Indian', notes: ''
+  });
+  const { toast } = useToast();
+
+  const update = (k, v) => setData(d => ({ ...d, [k]: v }));
+
+  const next = () => {
+    if (step === 1 && (!data.country || !data.visaType)) { toast({ title: 'Please select both country and visa type' }); return; }
+    if (step === 2 && (!data.name || !data.email || !data.phone)) { toast({ title: 'Please fill required fields' }); return; }
+    if (step < 4) setStep(s => s + 1);
+  };
+  const back = () => step > 1 && setStep(s => s - 1);
+
+  return (
+    <SimplePage title="Apply for Visa" subtitle="Complete your application in 4 simple steps. Save and resume anytime." breadcrumb="Apply">
+      {/* Stepper */}
+      <div className="mb-12">
+        <div className="flex items-center justify-between max-w-3xl mx-auto">
+          {stepsList.map((s, i) => {
+            const Icon = s.icon;
+            const completed = step > s.id;
+            const active = step === s.id;
+            return (
+              <React.Fragment key={s.id}>
+                <div className="flex flex-col items-center gap-2 flex-shrink-0">
+                  <div className={`w-12 h-12 rounded-full flex items-center justify-center transition-all ${
+                    completed ? 'bg-[#E86C2C] text-white' : active ? 'bg-[#1A3C5E] text-white ring-4 ring-[#1A3C5E]/15' : 'bg-slate-200 text-slate-500'
+                  }`}>
+                    {completed ? <Check className="w-5 h-5" /> : <Icon className="w-5 h-5" />}
+                  </div>
+                  <div className={`text-xs font-semibold ${active || completed ? 'text-[#1A3C5E]' : 'text-slate-400'}`}>{s.label}</div>
+                </div>
+                {i < stepsList.length - 1 && (
+                  <div className={`flex-1 h-0.5 mx-2 -mt-6 ${step > s.id ? 'bg-[#E86C2C]' : 'bg-slate-200'}`} />
+                )}
+              </React.Fragment>
+            );
+          })}
+        </div>
+      </div>
+
+      <div className="max-w-3xl mx-auto bg-white rounded-2xl border border-slate-200 p-8 shadow-sm">
+        {step === 1 && (
+          <div className="space-y-5">
+            <h2 className="text-2xl font-bold text-[#1A3C5E] mb-1">Where are you traveling?</h2>
+            <p className="text-sm text-slate-600 mb-6">Pick your destination and visa type to begin.</p>
+            <div>
+              <Label className="text-[#1A3C5E] font-medium mb-2 block">Destination Country *</Label>
+              <Select value={data.country} onValueChange={(v) => update('country', v)}>
+                <SelectTrigger className="h-12"><SelectValue placeholder="Select country" /></SelectTrigger>
+                <SelectContent className="max-h-72">
+                  {countryVisas.map(c => <SelectItem key={c.id} value={c.country}>{c.country}</SelectItem>)}
+                </SelectContent>
+              </Select>
+            </div>
+            <div>
+              <Label className="text-[#1A3C5E] font-medium mb-2 block">Visa Type *</Label>
+              <Select value={data.visaType} onValueChange={(v) => update('visaType', v)}>
+                <SelectTrigger className="h-12"><SelectValue placeholder="Select visa type" /></SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="tourist">Tourist Visa</SelectItem>
+                  <SelectItem value="business">Business Visa</SelectItem>
+                  <SelectItem value="student">Student Visa</SelectItem>
+                  <SelectItem value="transit">Transit Visa</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
+        )}
+        {step === 2 && (
+          <div className="space-y-5">
+            <h2 className="text-2xl font-bold text-[#1A3C5E] mb-1">Your details</h2>
+            <p className="text-sm text-slate-600 mb-6">We'll use these details to set up your application.</p>
+            <div className="grid sm:grid-cols-2 gap-4">
+              <div><Label className="text-[#1A3C5E] font-medium mb-2 block">Full Name *</Label><Input value={data.name} onChange={(e) => update('name', e.target.value)} className="h-11" /></div>
+              <div><Label className="text-[#1A3C5E] font-medium mb-2 block">Email *</Label><Input type="email" value={data.email} onChange={(e) => update('email', e.target.value)} className="h-11" /></div>
+              <div><Label className="text-[#1A3C5E] font-medium mb-2 block">Phone *</Label><Input value={data.phone} onChange={(e) => update('phone', e.target.value)} className="h-11" /></div>
+              <div><Label className="text-[#1A3C5E] font-medium mb-2 block">Date of Birth</Label><Input type="date" value={data.dob} onChange={(e) => update('dob', e.target.value)} className="h-11" /></div>
+              <div><Label className="text-[#1A3C5E] font-medium mb-2 block">Passport Number</Label><Input value={data.passport} onChange={(e) => update('passport', e.target.value)} className="h-11" /></div>
+              <div><Label className="text-[#1A3C5E] font-medium mb-2 block">Nationality</Label><Input value={data.nationality} onChange={(e) => update('nationality', e.target.value)} className="h-11" /></div>
+            </div>
+            <div><Label className="text-[#1A3C5E] font-medium mb-2 block">Additional Notes</Label><Textarea value={data.notes} onChange={(e) => update('notes', e.target.value)} rows={3} /></div>
+          </div>
+        )}
+        {step === 3 && (
+          <div className="space-y-5">
+            <h2 className="text-2xl font-bold text-[#1A3C5E] mb-1">Upload Documents</h2>
+            <p className="text-sm text-slate-600 mb-6">Upload clear scans of the required documents. JPG, PNG or PDF accepted.</p>
+            {['Passport (front & back)', 'Recent Photograph', 'Bank Statement (3 months)', 'Travel Itinerary'].map(doc => (
+              <div key={doc} className="border-2 border-dashed border-slate-300 rounded-xl p-5 hover:border-[#E86C2C] hover:bg-[#E86C2C]/5 transition-all cursor-pointer">
+                <div className="flex items-center gap-4">
+                  <Upload className="w-6 h-6 text-[#E86C2C]" />
+                  <div className="flex-1">
+                    <div className="font-medium text-[#1A3C5E] text-sm">{doc}</div>
+                    <div className="text-xs text-slate-500">Click to upload or drag & drop</div>
+                  </div>
+                  <Button size="sm" variant="outline" className="border-[#1A3C5E] text-[#1A3C5E]">Upload</Button>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+        {step === 4 && (
+          <div className="text-center py-10">
+            <div className="w-20 h-20 rounded-full bg-[#E86C2C]/10 flex items-center justify-center mx-auto mb-5">
+              <Check className="w-10 h-10 text-[#E86C2C]" strokeWidth={3} />
+            </div>
+            <h2 className="text-3xl font-bold text-[#1A3C5E] mb-3">Application Submitted!</h2>
+            <p className="text-slate-600 max-w-md mx-auto mb-2">Your application reference number is</p>
+            <div className="text-2xl font-bold text-[#E86C2C] tracking-wider mb-6">BTT-{Math.floor(Math.random() * 900000) + 100000}</div>
+            <p className="text-sm text-slate-500 max-w-md mx-auto">Our visa expert will review your documents within 24 hours and reach out via email/WhatsApp.</p>
+          </div>
+        )}
+
+        <div className="flex justify-between mt-8 pt-6 border-t border-slate-200">
+          {step > 1 && step < 4 ? (
+            <Button onClick={back} variant="outline" className="gap-2"><ArrowLeft className="w-4 h-4" /> Back</Button>
+          ) : <div />}
+          {step < 4 && (
+            <Button onClick={next} className="bg-[#E86C2C] hover:bg-[#d05f24] text-white gap-2 ml-auto">
+              {step === 3 ? 'Submit Application' : 'Continue'} <ArrowRight className="w-4 h-4" />
+            </Button>
+          )}
+        </div>
+      </div>
+    </SimplePage>
+  );
+};
+
+export default Apply;
