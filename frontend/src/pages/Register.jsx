@@ -38,8 +38,11 @@ const Register = () => {
     if (res?.session) { navigate('/', { replace: true }); return; }
     // No session yet — could be email confirmation required, or recovery path
     const { data: sess } = await supabase.auth.getSession();
-    if (sess?.session) navigate('/', { replace: true });
-    else setSuccess(true);
+    if (sess?.session) { navigate('/', { replace: true }); return; }
+    // If a user record was returned but no session, confirmation is required
+    if (res?.user && !res.session) { setSuccess(true); return; }
+    // Otherwise something silently failed — likely Email provider disabled in Supabase
+    setError('Sign-up did not complete. Please ensure the Email provider is enabled in your Supabase Auth settings, then try again.');
   };
 
   const google = async () => {
