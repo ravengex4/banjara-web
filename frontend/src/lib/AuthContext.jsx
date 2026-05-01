@@ -67,12 +67,26 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   const safeCall = async (fn) => {
+    const isStreamErr = (m) => typeof m === 'string' && m.includes('body stream already read');
     try {
-      return await fn();
+      const res = await fn();
+      // Supabase returns errors in res.error; treat the stream race as benign
+      if (res?.error && isStreamErr(res.error.message)) {
+        // Try to recover the actual session
+        try {
+          const { data } = await supabase.auth.getSession();
+          if (data?.session) return { data: { session: data.session, user: data.session.user }, error: null };
+        } catch (_) {}
+        return { data: null, error: null };
+      }
+      return res;
     } catch (e) {
       const msg = (e && e.message) || '';
-      // Suppress benign body-stream race
-      if (msg.includes('body stream already read')) {
+      if (isStreamErr(msg)) {
+        try {
+          const { data } = await supabase.auth.getSession();
+          if (data?.session) return { data: { session: data.session, user: data.session.user }, error: null };
+        } catch (_) {}
         return { data: null, error: null };
       }
       return { data: null, error: { message: msg || 'Network error. Please try again.' } };
