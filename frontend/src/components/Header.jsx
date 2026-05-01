@@ -75,7 +75,7 @@ const Header = () => {
         <div className="max-w-7xl mx-auto px-6 py-3.5 flex items-center gap-8">
           <Link to="/" className="flex items-center gap-2.5 group flex-shrink-0">
             <img
-              src="/assets/logo.png"
+              src="/assets/logo.webp"
               alt="Banjara Tours and Travels"
               className="w-12 h-12 object-contain group-hover:scale-105 transition-transform"
             />
