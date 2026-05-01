@@ -3,6 +3,7 @@ import { SimplePage } from './PageHeader';
 import { Calendar, Clock, ArrowRight, Tag, Loader2 } from 'lucide-react';
 import { useTable } from '../lib/useTable';
 import { Button } from '../components/ui/button';
+import { SEO, orgSchema, breadcrumbSchema } from '../lib/SEO';
 
 const Blog = () => {
   const { data: blogPosts, loading } = useTable('blog_posts', { orderBy: 'published_at', ascending: false });
@@ -15,6 +16,12 @@ const Blog = () => {
 
   return (
     <SimplePage title="Travel & Visa Blog" subtitle="Country guides, visa tips, and travel news from our experts." breadcrumb="Blog">
+      <SEO
+        title="Visa & Travel Blog — Country Guides, Tips, News"
+        description="Expert visa guides for India travelers — Dubai visa in 24 hours, Schengen documents, USA interview prep, embassy updates and travel tips."
+        path="/blog"
+        jsonLd={[orgSchema(), breadcrumbSchema([{ name: 'Home', path: '/' }, { name: 'Blog', path: '/blog' }])]}
+      />
       {loading ? (
         <div className="flex items-center justify-center py-20 gap-2 text-slate-600"><Loader2 className="w-5 h-5 animate-spin" /> Loading posts...</div>
       ) : blogPosts.length === 0 ? (

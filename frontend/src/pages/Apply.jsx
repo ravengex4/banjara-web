@@ -10,6 +10,7 @@ import { countryVisas } from '../mock';
 import { useTable } from '../lib/useTable';
 import { useToast } from '../hooks/use-toast';
 import { supabase, generateRefNumber } from '../lib/supabase';
+import { SEO, orgSchema, breadcrumbSchema } from '../lib/SEO';
 
 const stepsList = [
   { id: 1, label: 'Select Visa', icon: MapPin },
@@ -86,6 +87,12 @@ const Apply = () => {
 
   return (
     <SimplePage title="Apply for Visa" subtitle="Complete your application in 4 simple steps. Save and resume anytime." breadcrumb="Apply">
+      <SEO
+        title="Apply for Visa — Online Application"
+        description="Apply online for tourist, business, student or transit visa to 150+ countries. 4-step application, document upload, real-time status tracking."
+        path="/apply"
+        jsonLd={[orgSchema(), breadcrumbSchema([{ name: 'Home', path: '/' }, { name: 'Apply', path: '/apply' }])]}
+      />
       <div className="mb-12">
         <div className="flex items-center justify-between max-w-3xl mx-auto">
           {stepsList.map((s, i) => {

@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { ArrowRight, FileCheck, Globe, Stamp, BookCheck, UserCheck, ShieldCheck, Plane, Briefcase, Check } from 'lucide-react';
 import { services } from '../mock';
 import { Button } from '../components/ui/button';
+import { SEO, orgSchema, breadcrumbSchema, serviceSchema } from '../lib/SEO';
 
 const iconMap = { FileCheck, Globe, Stamp, BookCheck, UserCheck, ShieldCheck, Plane, Briefcase };
 
@@ -13,6 +14,16 @@ const Services = () => (
     subtitle="From visa applications to FRRO registration — a complete suite of travel documentation services."
     breadcrumb="Services"
   >
+    <SEO
+      title="Services — Visa, Attestation, FRRO, Travel Insurance"
+      description="Complete visa & travel documentation services: tourist & business visas, MEA attestation, apostille, FRRO registration, travel insurance, B2B agent portal."
+      path="/services"
+      jsonLd={[
+        orgSchema(),
+        breadcrumbSchema([{ name: 'Home', path: '/' }, { name: 'Services', path: '/services' }]),
+        ...services.map(s => serviceSchema(s)),
+      ]}
+    />
     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
       {services.map(s => {
         const Icon = iconMap[s.icon];

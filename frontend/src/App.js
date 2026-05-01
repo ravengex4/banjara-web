@@ -1,6 +1,7 @@
 import React from 'react';
 import './App.css';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { HelmetProvider } from 'react-helmet-async';
 import { Toaster } from './components/ui/toaster';
 import { AuthProvider } from './lib/AuthContext';
 import { RequireAdmin } from './lib/AuthGuards';
@@ -28,8 +29,9 @@ import AdminCMS from './pages/admin/AdminCMS';
 function App() {
   return (
     <div className="App">
-      <BrowserRouter>
-        <AuthProvider>
+      <HelmetProvider>
+        <BrowserRouter>
+          <AuthProvider>
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/about" element={<About />} />
@@ -62,6 +64,7 @@ function App() {
           <Toaster />
         </AuthProvider>
       </BrowserRouter>
+      </HelmetProvider>
     </div>
   );
 }

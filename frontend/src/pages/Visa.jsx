@@ -6,6 +6,7 @@ import { Button } from '../components/ui/button';
 import { Badge } from '../components/ui/badge';
 import { useTable } from '../lib/useTable';
 import { Link } from 'react-router-dom';
+import { SEO, orgSchema, breadcrumbSchema } from '../lib/SEO';
 
 const Visa = () => {
   const [search, setSearch] = useState('');
@@ -24,6 +25,12 @@ const Visa = () => {
 
   return (
     <SimplePage title="Visa Services" subtitle="Apply visa for 150+ countries with transparent pricing and expert document review." breadcrumb="Visa">
+      <SEO
+        title="Visa Services for 150+ Countries"
+        description="Apply tourist, business or e-Visa for UAE, USA, UK, Schengen, Australia, Canada, Singapore and 150+ countries from India. Transparent fees, expert review, fast processing."
+        path="/visa"
+        jsonLd={[orgSchema(), breadcrumbSchema([{ name: 'Home', path: '/' }, { name: 'Visa', path: '/visa' }])]}
+      />
       <div className="flex flex-col md:flex-row gap-3 mb-8">
         <div className="flex-1 relative">
           <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />

@@ -3,6 +3,7 @@ import { SimplePage } from './PageHeader';
 import { Plane, Check, ArrowRight, FileText, Globe2, Clock } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Button } from '../components/ui/button';
+import { SEO, orgSchema, breadcrumbSchema } from '../lib/SEO';
 
 const visaTypes = [
   { type: 'Tourist Visa (e-Visa)', duration: '30 / 60 / 1 Year', price: 'From INR 1,800', features: ['Online application', 'Single & Multiple entry', 'Quick processing'] },
@@ -13,6 +14,12 @@ const visaTypes = [
 
 const IndiaVisa = () => (
   <SimplePage title="Indian Visa for Foreigners" subtitle="Hassle-free India visa processing for all nationalities — tourist, business, medical and conference visas." breadcrumb="Indian Visa">
+    <SEO
+      title="Indian Visa for Foreigners — Tourist, Business, e-Visa"
+      description="Apply Indian e-Visa, tourist visa, business visa, medical visa from any nationality. 72-hour processing, FRRO assistance, Port of Entry guidance."
+      path="/india-visa"
+      jsonLd={[orgSchema(), breadcrumbSchema([{ name: 'Home', path: '/' }, { name: 'Indian Visa', path: '/india-visa' }])]}
+    />
     <div className="grid lg:grid-cols-3 gap-5 mb-12">
       {[
         { icon: Globe2, title: '180+ Nationalities', text: 'Visa services for travelers from 180+ countries.' },

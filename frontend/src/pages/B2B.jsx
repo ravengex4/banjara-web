@@ -8,6 +8,7 @@ import { Label } from '../components/ui/label';
 import { Textarea } from '../components/ui/textarea';
 import { useToast } from '../hooks/use-toast';
 import { supabase } from '../lib/supabase';
+import { SEO, orgSchema, breadcrumbSchema } from '../lib/SEO';
 
 const benefits = [
   { icon: TrendingUp, title: 'Competitive Margins', text: 'Get the best B2B rates with transparent commission structure on every visa.' },
@@ -52,6 +53,12 @@ const B2B = () => {
 
   return (
     <SimplePage title="B2B Partner Portal" subtitle="Become a Banjara sub-agent and grow your travel agency with reliable visa services." breadcrumb="B2B Partner">
+      <SEO
+        title="B2B Visa Sub-Agent Portal for Travel Agencies"
+        description="Partner with Banjara Tours as a B2B visa sub-agent. Bulk processing, competitive margins, dedicated account manager, white-label reports for travel agencies in India."
+        path="/b2b"
+        jsonLd={[orgSchema(), breadcrumbSchema([{ name: 'Home', path: '/' }, { name: 'B2B Partner', path: '/b2b' }])]}
+      />
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 mb-16">
         {benefits.map((b, i) => (
           <div key={i} className="bg-white border border-slate-200 rounded-2xl p-6 hover:border-[#FF2A2A]/40 hover:shadow-lg transition-all">

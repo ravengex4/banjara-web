@@ -5,6 +5,7 @@ import { Input } from '../components/ui/input';
 import { Button } from '../components/ui/button';
 import { supabase } from '../lib/supabase';
 import { useSearchParams } from 'react-router-dom';
+import { SEO, breadcrumbSchema } from '../lib/SEO';
 
 const Track = () => {
   const [params] = useSearchParams();
@@ -58,6 +59,12 @@ const Track = () => {
 
   return (
     <SimplePage title="Track Your Application" subtitle="Enter your reference number to see real-time status updates." breadcrumb="Track Status">
+      <SEO
+        title="Track Visa Application Status"
+        description="Track your visa application status in real-time using your Banjara reference number. Get instant timeline updates from submission to approval."
+        path="/track"
+        noIndex
+      />
       <div className="max-w-2xl mx-auto">
         <form onSubmit={handleTrack} className="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm">
           <label className="block text-sm font-medium text-[#003D52] mb-2">Application Reference Number</label>

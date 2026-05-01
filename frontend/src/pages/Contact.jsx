@@ -10,6 +10,7 @@ import { useToast } from '../hooks/use-toast';
 import { supabase } from '../lib/supabase';
 import { useTable } from '../lib/useTable';
 import { Loader2 } from 'lucide-react';
+import { SEO, orgSchema, breadcrumbSchema } from '../lib/SEO';
 
 const Contact = () => {
   const { data: offices } = useTable('offices');
@@ -47,6 +48,12 @@ const Contact = () => {
 
   return (
     <SimplePage title="Get In Touch" subtitle="Have questions? Our visa experts are here to help. Reach out via form, phone, email, or visit a branch." breadcrumb="Contact">
+      <SEO
+        title="Contact Us — Visa Experts in India"
+        description="Reach Banjara Tours visa experts. Branches in Hyderabad, Delhi, Mumbai, Bengaluru. Phone +91 98218 11221, email info@banjaratours.in. Open Mon–Sat 9am–7pm IST."
+        path="/contact"
+        jsonLd={[orgSchema(), breadcrumbSchema([{ name: 'Home', path: '/' }, { name: 'Contact', path: '/contact' }])]}
+      />
       <div className="grid lg:grid-cols-3 gap-6 mb-12">
         {[
           { icon: Phone, title: 'Call Us', text: '+91 98218 11221', sub: 'Mon–Sat, 9am–7pm IST' },

@@ -3,6 +3,7 @@ import { SimplePage } from './PageHeader';
 import { Award, Globe, Heart, Target, Users } from 'lucide-react';
 import { stats } from '../mock';
 import { useTable } from '../lib/useTable';
+import { SEO, orgSchema, breadcrumbSchema } from '../lib/SEO';
 
 const values = [
   { icon: Heart, title: 'Customer First', text: 'Every visa journey is treated with personal care and dedicated support.' },
@@ -19,6 +20,12 @@ const About = () => {
     subtitle="India's most trusted visa consultancy and travel documentation partner since 2010."
     breadcrumb="About Us"
   >
+    <SEO
+      title="About Us"
+      description="Learn about Banjara Tours and Travels — India's leading visa consultancy since 2010. 50,000+ visas processed, 150+ countries, 98% success rate."
+      path="/about"
+      jsonLd={[orgSchema(), breadcrumbSchema([{ name: 'Home', path: '/' }, { name: 'About', path: '/about' }])]}
+    />
     <div className="grid lg:grid-cols-2 gap-12 items-center mb-20">
       <div>
         <div className="text-[#FF2A2A] text-sm font-semibold uppercase tracking-wider mb-3">Our Story</div>
