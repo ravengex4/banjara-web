@@ -55,9 +55,7 @@ const Register = () => {
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#E9EEF2] via-white to-[#BFEAF7]/40 px-4 py-10">
       <div className="w-full max-w-md">
         <Link to="/" className="flex items-center justify-center gap-2.5 mb-8">
-          <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[#FF2A2A] to-[#00C2E6] flex items-center justify-center shadow-md">
-            <Plane className="w-5 h-5 text-white -rotate-45" strokeWidth={2.5} />
-          </div>
+          <img src="/assets/logo.png" alt="Banjara Tours and Travels" className="w-14 h-14 object-contain" />
           <div className="leading-tight text-left">
             <div className="font-bold text-[#003D52] text-lg">Banjara Tours</div>
             <div className="text-[10px] uppercase tracking-widest text-[#FF2A2A] font-semibold">& Travels</div>
