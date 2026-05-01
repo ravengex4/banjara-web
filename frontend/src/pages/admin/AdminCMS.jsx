@@ -96,7 +96,8 @@ const AdminCMS = ({ table }) => {
     setRows(data || []);
     setLoading(false);
   };
-  useEffect(() => { load(); /* eslint-disable-next-line */ }, [table]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(() => { load(); }, [table]);
 
   const startNew = () => {
     const empty = {};
