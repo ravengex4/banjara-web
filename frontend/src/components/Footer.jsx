@@ -67,7 +67,7 @@ const Footer = () => {
             <ul className="space-y-2.5 text-sm">
               {['About Us', 'Services', 'Apply Visa', 'Track Status', 'Blog', 'Contact'].map(item => (
                 <li key={item}>
-                  <Link to={`/${item.toLowerCase().replace(/ /g, '-').replace('apply-visa', 'apply').replace('track-status', 'track')}`} className="text-slate-400 hover:text-[#00C2E6] transition-colors">{item}</Link>
+                  <Link to={`/${item.toLowerCase().replace(/ /g, '-').replace('apply-visa', 'apply').replace('track-status', 'track').replace('about-us', 'about')}`} className="text-slate-400 hover:text-[#00C2E6] transition-colors">{item}</Link>
                 </li>
               ))}
             </ul>

@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import { Search, MapPin, Plane, Shield, Clock } from 'lucide-react';
 import { Button } from './ui/button';
-import { Input } from './ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
-import { countryVisas } from '../mock';
+import { useTable } from '../lib/useTable';
 import { Link } from 'react-router-dom';
 
 const Hero = () => {
   const [country, setCountry] = useState('');
   const [visaType, setVisaType] = useState('');
+  const { data: countries } = useTable('countries');
 
   return (
     <section className="relative overflow-hidden bg-gradient-to-br from-[#003D52] via-[#00688A] to-[#00A6D6]">
@@ -45,8 +45,8 @@ const Hero = () => {
                     <SelectValue placeholder="Select destination" />
                   </SelectTrigger>
                   <SelectContent className="max-h-72">
-                    {countryVisas.map(c => (
-                      <SelectItem key={c.id} value={c.country}>{c.country}</SelectItem>
+                    {countries.map(c => (
+                      <SelectItem key={c.id} value={c.name}>{c.name}</SelectItem>
                     ))}
                   </SelectContent>
                 </Select>

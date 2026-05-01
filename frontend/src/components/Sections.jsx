@@ -1,7 +1,8 @@
 import React from 'react';
 import { Clock, Headphones, Users, Award, FileCheck, Globe, Stamp, BookCheck, UserCheck, ShieldCheck, Plane, Briefcase, MapPin, User, Upload, CheckCircle, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { trustBadges, services, steps, stats } from '../mock';
+import { trustBadges, steps, stats } from '../mock';
+import { useTable } from '../lib/useTable';
 import { Button } from './ui/button';
 
 const iconMap = { Clock, Headphones, Users, Award, FileCheck, Globe, Stamp, BookCheck, UserCheck, ShieldCheck, Plane, Briefcase, MapPin, User, Upload, CheckCircle };
@@ -29,7 +30,9 @@ export const TrustBadges = () => (
   </section>
 );
 
-export const Services = () => (
+export const Services = () => {
+  const { data: services } = useTable('services');
+  return (
   <section className="py-20 bg-white">
     <div className="max-w-7xl mx-auto px-6">
       <div className="text-center mb-14">
@@ -64,7 +67,8 @@ export const Services = () => (
       </div>
     </div>
   </section>
-);
+  );
+};
 
 export const Steps = () => (
   <section className="py-20 bg-gradient-to-br from-[#F8F9FA] to-white">

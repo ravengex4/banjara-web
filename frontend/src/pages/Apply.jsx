@@ -7,6 +7,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '.
 import { Textarea } from '../components/ui/textarea';
 import { Check, MapPin, User, Upload, FileCheck, ArrowRight, ArrowLeft, Loader2 } from 'lucide-react';
 import { countryVisas } from '../mock';
+import { useTable } from '../lib/useTable';
 import { useToast } from '../hooks/use-toast';
 import { supabase, generateRefNumber } from '../lib/supabase';
 
@@ -33,6 +34,7 @@ const Apply = () => {
   const [step, setStep] = useState(1);
   const [submitting, setSubmitting] = useState(false);
   const [refNumber, setRefNumber] = useState('');
+  const { data: countries } = useTable('countries');
   const [data, setData] = useState({
     country: '', visaType: '', name: '', email: '', phone: '', dob: '', passport: '', nationality: 'Indian', notes: ''
   });
@@ -119,7 +121,7 @@ const Apply = () => {
               <Select value={data.country} onValueChange={(v) => update('country', v)}>
                 <SelectTrigger className="h-12"><SelectValue placeholder="Select country" /></SelectTrigger>
                 <SelectContent className="max-h-72">
-                  {countryVisas.map(c => <SelectItem key={c.id} value={c.country}>{c.country}</SelectItem>)}
+                  {(countries.length ? countries.map(c => ({ id: c.id, country: c.name })) : countryVisas).map(c => <SelectItem key={c.id} value={c.country}>{c.country}</SelectItem>)}
                 </SelectContent>
               </Select>
             </div>

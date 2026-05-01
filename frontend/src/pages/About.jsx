@@ -1,7 +1,8 @@
 import React from 'react';
 import { SimplePage } from './PageHeader';
 import { Award, Globe, Heart, Target, Users } from 'lucide-react';
-import { stats, offices } from '../mock';
+import { stats } from '../mock';
+import { useTable } from '../lib/useTable';
 
 const values = [
   { icon: Heart, title: 'Customer First', text: 'Every visa journey is treated with personal care and dedicated support.' },
@@ -10,7 +11,9 @@ const values = [
   { icon: Award, title: 'Excellence', text: 'IATA-certified and recognized by leading travel associations.' },
 ];
 
-const About = () => (
+const About = () => {
+  const { data: offices } = useTable('offices');
+  return (
   <SimplePage
     title="About Banjara Tours and Travels"
     subtitle="India's most trusted visa consultancy and travel documentation partner since 2010."
@@ -89,6 +92,7 @@ const About = () => (
       </div>
     </div>
   </SimplePage>
-);
+  );
+};
 
 export default About;

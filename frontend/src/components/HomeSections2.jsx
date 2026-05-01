@@ -1,15 +1,16 @@
 import React, { useState } from 'react';
 import { Star, Quote, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from './ui/accordion';
-import { testimonials, faqs } from '../mock';
+import { useTable } from '../lib/useTable';
 import { Button } from './ui/button';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Plane } from 'lucide-react';
 
 export const Testimonials = () => {
+  const { data: testimonials } = useTable('testimonials');
   const [index, setIndex] = useState(0);
   const visible = 3;
-  const max = testimonials.length - visible;
+  const max = Math.max(0, testimonials.length - visible);
 
   const next = () => setIndex(i => Math.min(i + 1, max));
   const prev = () => setIndex(i => Math.max(i - 1, 0));
@@ -72,7 +73,9 @@ export const Testimonials = () => {
   );
 };
 
-export const FAQ = () => (
+export const FAQ = () => {
+  const { data: faqs } = useTable('faqs');
+  return (
   <section className="py-20 bg-slate-50">
     <div className="max-w-4xl mx-auto px-6">
       <div className="text-center mb-12">
@@ -103,7 +106,8 @@ export const FAQ = () => (
       </Accordion>
     </div>
   </section>
-);
+  );
+};
 
 export const CTA = () => (
   <section className="py-16 bg-white">

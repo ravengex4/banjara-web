@@ -6,12 +6,13 @@ import { Textarea } from '../components/ui/textarea';
 import { Label } from '../components/ui/label';
 import { Button } from '../components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../components/ui/select';
-import { offices } from '../mock';
 import { useToast } from '../hooks/use-toast';
 import { supabase } from '../lib/supabase';
+import { useTable } from '../lib/useTable';
 import { Loader2 } from 'lucide-react';
 
 const Contact = () => {
+  const { data: offices } = useTable('offices');
   const [data, setData] = useState({ name: '', email: '', phone: '', subject: '', message: '' });
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
