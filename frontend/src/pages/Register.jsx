@@ -5,6 +5,7 @@ import { Button } from '../components/ui/button';
 import { Input } from '../components/ui/input';
 import { Label } from '../components/ui/label';
 import { useAuth } from '../lib/AuthContext';
+import { supabase } from '../lib/supabase';
 
 const GoogleIcon = () => (
   <svg className="w-4 h-4" viewBox="0 0 24 24">
@@ -33,7 +34,11 @@ const Register = () => {
     const { data: res, error } = await signUp(data);
     setSubmitting(false);
     if (error) { setError(error.message); return; }
-    if (res.session) navigate('/', { replace: true });
+    // res may be null when safeCall recovers from stream race; check current session
+    if (res?.session) { navigate('/', { replace: true }); return; }
+    // No session yet — could be email confirmation required, or recovery path
+    const { data: sess } = await supabase.auth.getSession();
+    if (sess?.session) navigate('/', { replace: true });
     else setSuccess(true);
   };
 
