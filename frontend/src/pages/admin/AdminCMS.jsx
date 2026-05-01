@@ -57,6 +57,7 @@ const configs = {
       { key: 'address', label: 'Address', type: 'textarea' },
       { key: 'phone', label: 'Phone', type: 'text' },
       { key: 'email', label: 'Email', type: 'text' },
+      { key: 'map_url', label: 'Google Maps URL', type: 'text', placeholder: 'https://maps.app.goo.gl/...' },
       { key: 'sort_order', label: 'Sort Order', type: 'number' },
     ],
     listColumns: ['city', 'address', 'phone', 'email'],

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { SimplePage } from './PageHeader';
-import { MapPin, Phone, Mail, Clock, Send, CheckCircle } from 'lucide-react';
+import { MapPin, Phone, Mail, Clock, Send, CheckCircle, ExternalLink } from 'lucide-react';
 import { Input } from '../components/ui/input';
 import { Textarea } from '../components/ui/textarea';
 import { Label } from '../components/ui/label';
@@ -50,13 +50,13 @@ const Contact = () => {
     <SimplePage title="Get In Touch" subtitle="Have questions? Our visa experts are here to help. Reach out via form, phone, email, or visit a branch." breadcrumb="Contact">
       <SEO
         title="Contact Us — Visa Experts in India"
-        description="Reach Banjara Tours visa experts. Branches in Hyderabad, Delhi, Mumbai, Bengaluru. Phone +91 98218 11221, email info@banjaratours.in. Open Mon–Sat 9am–7pm IST."
+        description="Reach Banjara Tours visa experts. Office at Plot 150, Phase 3, Kamalapuri Colony, Hyderabad. Phone +91 99599 40008, email info@banjaratours.in. Open Mon–Sat 9am–7pm IST."
         path="/contact"
         jsonLd={[orgSchema(), breadcrumbSchema([{ name: 'Home', path: '/' }, { name: 'Contact', path: '/contact' }])]}
       />
       <div className="grid lg:grid-cols-3 gap-6 mb-12">
         {[
-          { icon: Phone, title: 'Call Us', text: '+91 98218 11221', sub: 'Mon–Sat, 9am–7pm IST' },
+          { icon: Phone, title: 'Call Us', text: '+91 99599 40008', sub: 'Mon–Sat, 9am–7pm IST' },
           { icon: Mail, title: 'Email Us', text: 'info@banjaratours.in', sub: 'Reply within 24 hours' },
           { icon: Clock, title: 'Working Hours', text: 'Mon – Sat', sub: '9:00 AM – 7:00 PM' },
         ].map((item, i) => (
@@ -127,10 +127,20 @@ const Contact = () => {
                   <div className="flex-1">
                     <h3 className="font-bold text-[#003D52]">{o.city}</h3>
                     <p className="text-sm text-slate-600 leading-snug mb-2">{o.address}</p>
-                    <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs text-slate-500">
+                    <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs text-slate-500 mb-2">
                       <span>{o.phone}</span>
                       <span>{o.email}</span>
                     </div>
+                    {o.map_url && (
+                      <a
+                        href={o.map_url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1 text-xs font-semibold text-[#FF2A2A] hover:gap-1.5 transition-all"
+                      >
+                        View on Google Maps <ExternalLink className="w-3 h-3" />
+                      </a>
+                    )}
                   </div>
                 </div>
               </div>

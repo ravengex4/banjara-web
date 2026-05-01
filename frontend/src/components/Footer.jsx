@@ -89,11 +89,11 @@ const Footer = () => {
             <ul className="space-y-3 text-sm mb-5">
               <li className="flex gap-2.5 text-slate-400">
                 <MapPin className="w-4 h-4 text-[#00C2E6] flex-shrink-0 mt-0.5" />
-                <span>Banjara Hills, Road No. 12, Hyderabad 500034</span>
+                <a href="https://maps.app.goo.gl/GaraAwM7jqhts5Pz8" target="_blank" rel="noopener noreferrer" className="hover:text-[#00C2E6]">Plot No 150, Phase 3, Kamalapuri Colony, Hyderabad 500073</a>
               </li>
               <li className="flex gap-2.5 text-slate-400">
                 <Phone className="w-4 h-4 text-[#00C2E6] flex-shrink-0" />
-                <a href="tel:+919821811221" className="hover:text-[#00C2E6]">+91 98218 11221</a>
+                <a href="tel:+919959940008" className="hover:text-[#00C2E6]">+91 99599 40008</a>
               </li>
               <li className="flex gap-2.5 text-slate-400">
                 <Mail className="w-4 h-4 text-[#00C2E6] flex-shrink-0" />
