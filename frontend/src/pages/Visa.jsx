@@ -22,6 +22,9 @@ const Visa = () => {
   const countries = dbCountries.length > 0 ? dbCountries : countryVisas;
 
   const filtered = countries.filter(v => {
+    // Only show countries that have visa data (price or type present)
+    if (!v.price && !v.visa_type && !v.type) return false;
+
     const name = v.name || v.country || '';
     const type = v.visa_type || v.type || '';
     const format = v.visa_format || v.visaType || '';
@@ -43,12 +46,8 @@ const Visa = () => {
         path="/visa"
         jsonLd={[orgSchema(), breadcrumbSchema([{ name: 'Home', path: '/' }, { name: 'Visa', path: '/visa' }])]}
       />
-      <div className="flex flex-col md:flex-row gap-3 mb-8">
-        <div className="flex-1 relative">
-          <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
-          <Input value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search by country name..." className="pl-11 h-12 border-slate-300 focus-visible:ring-[#FF2A2A]" />
-        </div>
-        <div className="flex gap-2 overflow-x-auto">
+      <div className="flex flex-col md:flex-row gap-3 mb-8 justify-center">
+        <div className="flex gap-2 overflow-x-auto mx-auto md:mx-0">
           {['All', 'Tourist', 'Business', 'e-Visa', 'Stamp Visa'].map(f => (
             <button
               key={f}
@@ -92,16 +91,14 @@ const Visa = () => {
                     <div className="text-[10px] uppercase tracking-wider text-slate-500 font-semibold">{visa.visa_format || visa.visaType}</div>
                     <div className="text-base font-bold text-[#003D52]">{visa.price}</div>
                   </div>
-                  <Button 
-                    size="sm" 
-                    className="bg-[#FF2A2A] hover:bg-[#E01F1F] text-white"
-                    onClick={() => {
-                      setSelectedVisa(visa);
-                      setIsModalOpen(true);
-                    }}
-                  >
-                    Apply Now
-                  </Button>
+                  <Link to="/apply" state={{ country: visa.name || visa.country, visaType: visa.visa_type || visa.type }}>
+                    <Button 
+                      size="sm" 
+                      className="bg-[#FF2A2A] hover:bg-[#E01F1F] text-white"
+                    >
+                      Apply Now
+                    </Button>
+                  </Link>
                 </div>
 
                 <Collapsible 
@@ -132,6 +129,16 @@ const Visa = () => {
               </div>
             </div>
           ))}
+        </div>
+      )}
+
+      {!loading && filtered.length > 0 && (
+        <div className="text-center mt-12 mb-8">
+          <Link to="/apply">
+            <Button className="bg-[#FF2A2A] hover:bg-[#E01F1F] text-white px-8 h-12 rounded-xl font-bold shadow-lg shadow-[#FF2A2A]/20 transition-all hover:-translate-y-1">
+              View More <ArrowRight className="w-5 h-5 ml-2" />
+            </Button>
+          </Link>
         </div>
       )}
 

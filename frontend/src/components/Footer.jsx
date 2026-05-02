@@ -100,7 +100,7 @@ const Footer = () => {
               </li>
               <li className="flex gap-2.5 text-slate-400">
                 <Mail className="w-4 h-4 text-[#00C2E6] flex-shrink-0" />
-                <a href="mailto:banjaratrvel@gmail.com" className="hover:text-[#00C2E6]">banjaratrvel@gmail.com</a>
+                <a href="mailto:banjaratravel@gmail.com" className="hover:text-[#00C2E6]">banjaratravel@gmail.com</a>
               </li>
             </ul>
             <form onSubmit={handleSubscribe} className="flex gap-2">

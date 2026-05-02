@@ -14,12 +14,14 @@ import { supabase, generateRefNumber } from '../lib/supabase';
 import { SEO, orgSchema, breadcrumbSchema } from '../lib/SEO';
 import { useForm as useFormspree } from '@formspree/react';
 import { Link } from 'react-router-dom';
+import { formatDate } from '../lib/utils';
 import visaDataJson from '../visaRequirements.json';
+import { WORLD_COUNTRIES } from '../lib/constants';
 
 const stepsList = [
   { id: 1, label: 'Select Visa', icon: MapPin },
   { id: 2, label: 'Customer Details', icon: User },
-  { id: 3, label: 'Requirements', icon: FileCheck },
+  { id: 3, label: 'Review', icon: FileCheck },
   { id: 4, label: 'Submitted', icon: CheckCircle },
 ];
 
@@ -48,28 +50,38 @@ const getRequirements = (countryName, visaType) => {
   };
 };
 
-const buildTimeline = () => {
-  const today = new Date();
-  const fmt = (d) => d.toISOString().slice(0, 10);
-  return [
-    { label: 'Application Submitted', date: fmt(today), completed: true },
-    { label: 'Documents Verification', date: 'Pending', completed: false, current: true },
-    { label: 'Embassy Submission', date: 'Pending', completed: false },
-    { label: 'Under Review', date: 'Pending', completed: false },
-    { label: 'Visa Approved', date: 'Pending', completed: false },
-  ];
-};
-
 const Apply = () => {
   const [step, setStep] = useState(1);
-  const [state, handleSubmit] = useFormspree('xeenoajz');
-  const { data: countries } = useTable('countries');
+  const [submitting, setSubmitting] = useState(false);
+  const [succeeded, setSucceeded] = useState(false);
+  const { data: countries, loading } = useTable('countries');
   const [data, setData] = useState({
     country: '', consulate: '', visaType: '', name: '', email: '', phone: '', dob: '', passport: '', nationality: 'Indian', notes: ''
   });
+  // const [file, setFile] = useState(null); // Removed file upload
   const { toast } = useToast();
   const location = useLocation();
   const update = (k, v) => setData(d => ({ ...d, [k]: v }));
+  
+  const [countrySuggestions, setCountrySuggestions] = useState([]);
+  const [showCountrySuggestions, setShowCountrySuggestions] = useState(false);
+
+  const handleCountryChange = (val) => {
+    update('country', val);
+    if (val.trim().length > 0) {
+      const filtered = WORLD_COUNTRIES.filter(c => c.toLowerCase().includes(val.toLowerCase()));
+      setCountrySuggestions(filtered);
+      setShowCountrySuggestions(true);
+    } else {
+      setCountrySuggestions([]);
+      setShowCountrySuggestions(false);
+    }
+  };
+
+  const selectCountry = (countryName) => {
+    update('country', countryName);
+    setShowCountrySuggestions(false);
+  };
 
   useEffect(() => {
     if (location.state) {
@@ -77,12 +89,13 @@ const Apply = () => {
       if (location.state.visaType) update('visaType', location.state.visaType);
       if (location.state.consulate) update('consulate', location.state.consulate);
       
-      // Auto advance to step 2 if all required fields for step 1 are provided
       if (location.state.country && location.state.visaType && location.state.consulate) {
         setStep(2);
       }
     }
   }, [location.state]);
+
+  // handleFileChange removed as PDF upload is disabled
 
   const next = async () => {
     if (step === 1 && (!data.country || !data.visaType || !data.consulate)) {
@@ -94,14 +107,39 @@ const Apply = () => {
       return;
     }
     if (step === 3) {
-      await handleSubmit({
-        name: data.name,
-        email: data.email,
-        phone: data.phone,
-        visa_type: data.visaType,
-        country: data.country,
-        consulate: data.consulate
-      });
+      setSubmitting(true);
+      try {
+        const formData = new FormData();
+        formData.append('_subject', 'New Visa Application Received');
+        formData.append('name', data.name);
+        formData.append('email', data.email);
+        formData.append('phone', data.phone);
+        formData.append('country', data.country);
+        formData.append('visa_type', data.visaType);
+        formData.append('consulate', data.consulate);
+        formData.append('dob', formatDate(data.dob));
+        formData.append('passport', data.passport);
+        formData.append('nationality', data.nationality);
+        formData.append('notes', data.notes);
+
+
+        const response = await fetch('https://formspree.io/f/xeenoajz', {
+          method: 'POST',
+          headers: {
+            'Accept': 'application/json'
+          },
+          body: formData
+        });
+        if (response.ok) {
+          setSucceeded(true);
+        } else {
+          toast({ title: 'Submission Failed', description: 'Failed to submit the form. Please try again.', variant: 'destructive' });
+        }
+      } catch (err) {
+        toast({ title: 'Submission Failed', description: 'Please check your internet connection and try again.', variant: 'destructive' });
+      } finally {
+        setSubmitting(false);
+      }
       return;
     }
     if (step < 3) setStep(s => s + 1);
@@ -109,7 +147,9 @@ const Apply = () => {
   const back = () => step > 1 && setStep(s => s - 1);
   
   const currentReqs = getRequirements(data.country, data.visaType);
-  const currentStep = state.succeeded ? 4 : step;
+  const currentStep = succeeded ? 4 : step;
+
+
 
   return (
     <SimplePage title="Apply for Visa" subtitle="Complete your application in 4 simple steps. Save and resume anytime." breadcrumb="Apply">
@@ -149,23 +189,38 @@ const Apply = () => {
           <div className="space-y-5">
             <h2 className="text-2xl font-bold text-[#003D52] mb-1">Where are you traveling?</h2>
             <p className="text-sm text-slate-600 mb-6">Pick your destination and visa type to begin.</p>
-            <div>
+            <div className="relative">
               <Label className="text-[#003D52] font-medium mb-2 block">Destination Country *</Label>
-              <Select value={data.country} onValueChange={(v) => update('country', v)}>
-                <SelectTrigger className="h-12"><SelectValue placeholder="Select country" /></SelectTrigger>
-                <SelectContent className="max-h-72">
-                  {(countries.length ? countries.map(c => ({ id: c.id, country: c.name })) : countryVisas).map(c => <SelectItem key={c.id || c.country} value={c.country}>{c.country}</SelectItem>)}
-                </SelectContent>
-              </Select>
+              <Input 
+                value={data.country} 
+                onChange={(e) => handleCountryChange(e.target.value)}
+                onFocus={() => data.country && handleCountryChange(data.country)}
+                onBlur={() => setTimeout(() => setShowCountrySuggestions(false), 200)}
+                placeholder="Type to search country..." 
+                className="h-12"
+              />
+              {showCountrySuggestions && countrySuggestions.length > 0 && (
+                <div className="absolute z-50 w-full bg-white border border-slate-200 rounded-xl shadow-2xl mt-1 py-2 max-h-60 overflow-y-auto animate-in fade-in slide-in-from-top-2">
+                  {countrySuggestions.map(c => (
+                    <button
+                      key={c}
+                      onMouseDown={(e) => { e.preventDefault(); selectCountry(c); }}
+                      className="w-full text-left px-4 py-2.5 hover:bg-slate-50 text-[#003D52] text-sm font-medium transition-colors flex items-center gap-2"
+                    >
+                      <MapPin className="w-3.5 h-3.5 text-slate-400" /> {c}
+                    </button>
+                  ))}
+                </div>
+              )}
             </div>
             <div>
               <Label className="text-[#003D52] font-medium mb-2 block">Select Consulate *</Label>
               <Select value={data.consulate} onValueChange={(v) => update('consulate', v)}>
                 <SelectTrigger className="h-12"><SelectValue placeholder="Select consulate" /></SelectTrigger>
                 <SelectContent>
+                  <SelectItem value="Hyderabad">Hyderabad</SelectItem>
                   <SelectItem value="Delhi">Delhi</SelectItem>
                   <SelectItem value="Mumbai">Mumbai</SelectItem>
-                  <SelectItem value="Hyderabad">Hyderabad</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -198,9 +253,7 @@ const Apply = () => {
                   onFocus={(e) => { if (!data.phone) update('phone', '+91'); }}
                   onChange={(e) => {
                     let val = e.target.value;
-                    if (!val.startsWith('+91')) {
-                      val = '+91' + val.replace(/^\+91/, '');
-                    }
+                    if (!val.startsWith('+91')) val = '+91' + val.replace(/^\+91/, '');
                     val = val.replace(/[^\d+]/g, '');
                     update('phone', val);
                   }} 
@@ -213,14 +266,9 @@ const Apply = () => {
               <div><Label className="text-[#003D52] font-medium mb-2 block">Nationality</Label><Input value={data.nationality} onChange={(e) => update('nationality', e.target.value)} className="h-11" /></div>
             </div>
             <div><Label className="text-[#003D52] font-medium mb-2 block">Additional Notes</Label><Textarea value={data.notes} onChange={(e) => update('notes', e.target.value)} rows={3} /></div>
-            {state.errors && (
-              <div className="p-3 bg-red-50 text-red-700 text-xs rounded-md">
-                Submission failed. Please check your connection and try again.
-              </div>
-            )}
           </div>
         )}
-        {state.succeeded && (
+        {succeeded && (
           <div className="text-center py-10">
             <div className="w-20 h-20 rounded-full bg-[#FF2A2A]/10 flex items-center justify-center mx-auto mb-5">
               <CheckCircle className="w-10 h-10 text-[#FF2A2A]" strokeWidth={3} />
@@ -233,45 +281,35 @@ const Apply = () => {
           </div>
         )}
 
-        {!state.succeeded && step === 3 && (
+        {!succeeded && step === 3 && (
           <div className="space-y-6">
             <div className="border-b border-slate-100 pb-4 mb-2">
-              <h2 className="text-2xl font-bold text-[#003D52] mb-1">Visa Requirements</h2>
-              <p className="text-sm text-slate-600">Please ensure you have these documents ready before proceeding.</p>
+              <h2 className="text-2xl font-bold text-[#003D52] mb-1">Review Visa Requirements</h2>
+              <p className="text-sm text-slate-600">Please review the required documents before submitting your application.</p>
             </div>
             
             <div className="bg-[#003D52]/5 rounded-xl p-5 border border-[#003D52]/10 mb-6">
               <div className="flex items-center gap-2 mb-3">
                 <FileCheck className="w-5 h-5 text-[#003D52]" />
-                <span className="font-bold text-[#003D52] text-sm uppercase tracking-wider">{data.country} — {data.visaType} ({data.consulate} Consulate)</span>
+                <span className="font-bold text-[#003D52] text-sm uppercase tracking-wider">{data.country} — {data.visaType}</span>
               </div>
-              <div className="mb-4 inline-block bg-slate-100 text-slate-700 text-xs font-semibold px-3 py-1 rounded-full border border-slate-200">
-                Processing Time: {currentReqs.time}
-              </div>
-              <ul className="space-y-3">
+              <ul className="grid sm:grid-cols-2 gap-2 mb-6">
                 {currentReqs.docs.map((req, i) => (
-                  <li key={i} className="flex items-start gap-3 text-sm text-slate-700">
-                    <div className="w-5 h-5 rounded-full bg-white border border-[#FF2A2A]/30 flex items-center justify-center flex-shrink-0 mt-0.5">
-                      <Check className="w-3 h-3 text-[#FF2A2A]" />
-                    </div>
-                    <span className="capitalize">{req}</span>
+                  <li key={i} className="flex items-center gap-2 text-xs text-slate-700">
+                    <Check className="w-3 h-3 text-[#FF2A2A]" /> {req}
                   </li>
                 ))}
               </ul>
-            </div>
-            
-            <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 flex gap-3">
-              <div className="text-amber-500 font-bold text-lg mt-0.5">!</div>
-              <p className="text-xs text-amber-800 leading-relaxed">
-                <strong>Note:</strong> Some countries may require additional documents like income tax returns (3 years) or specific vaccination certificates. Our agent will guide you after you apply.
+
+              <p className="text-sm text-[#003D52]/70 italic mt-2">
+                Note: Our experts will contact you for the documents listed above.
               </p>
             </div>
           </div>
         )}
 
-
         <div className="flex justify-between mt-8 pt-6 border-t border-slate-200">
-          {step > 1 && !state.succeeded ? (
+          {step > 1 && !succeeded ? (
             <Button onClick={back} variant="outline" className="gap-2"><ArrowLeft className="w-4 h-4" /> Back</Button>
           ) : <div />}
           {step < 3 && (
@@ -279,9 +317,9 @@ const Apply = () => {
               Continue <ArrowRight className="w-4 h-4" />
             </Button>
           )}
-          {!state.succeeded && step === 3 && (
-            <Button onClick={next} disabled={state.submitting} className="bg-[#FF2A2A] hover:bg-[#E01F1F] text-white gap-2 ml-auto px-8 font-bold">
-              {state.submitting ? (
+          {!succeeded && step === 3 && (
+            <Button onClick={next} disabled={submitting} className="bg-[#FF2A2A] hover:bg-[#E01F1F] text-white gap-2 ml-auto px-8 font-bold">
+              {submitting ? (
                 <>
                   <Loader2 className="w-4 h-4 animate-spin" /> Submitting...
                 </>
@@ -299,3 +337,4 @@ const Apply = () => {
 };
 
 export default Apply;
+

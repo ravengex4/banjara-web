@@ -65,7 +65,7 @@ export const orgSchema = () => ({
   image: LOGO,
   description: DEFAULT_DESC,
   telephone: '+91-9959940008, +91-7842964008, +91-9515162008',
-  email: 'banjaratrvel@gmail.com',
+  email: 'banjaratravel@gmail.com',
   address: {
     '@type': 'PostalAddress',
     streetAddress: 'Plot No 150, Phase 3, Kamalapuri Colony',

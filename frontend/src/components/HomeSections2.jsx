@@ -137,7 +137,7 @@ export const CTA = () => (
                 <a href="tel:+919959940008" className="inline-flex items-center justify-center bg-white text-[#003D52] hover:bg-[#BFEAF7] h-12 px-7 rounded-md font-semibold transition-colors gap-2">
                   <Phone className="w-4 h-4" /> Call Expert
                 </a>
-                <a href="mailto:banjaratrvel@gmail.com" className="inline-flex items-center justify-center border border-white/30 text-white hover:bg-white/10 h-12 px-7 rounded-md font-semibold transition-colors gap-2">
+                <a href="mailto:banjaratravel@gmail.com" className="inline-flex items-center justify-center border border-white/30 text-white hover:bg-white/10 h-12 px-7 rounded-md font-semibold transition-colors gap-2">
                   <Mail className="w-4 h-4" /> Email Us
                 </a>
               </div>

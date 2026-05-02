@@ -12,6 +12,9 @@ const VisaCards = () => {
   const { data: countries } = useTable('countries');
 
   const filtered = countries.filter(v => {
+    // Only show countries that have visa data (price or type present)
+    if (!v.price && !v.visa_type) return false;
+    
     if (activeTab === 'All') return true;
     if (activeTab === 'Popular') return v.popular;
     if (activeTab === 'e-Visa') return v.visa_format === 'e-Visa';
@@ -36,16 +39,16 @@ const VisaCards = () => {
             </p>
           </div>
           <Link to="/visa" className="hidden md:inline-flex items-center gap-2 text-[#FF2A2A] font-semibold hover:gap-3 transition-all">
-            View All Countries <ArrowRight className="w-4 h-4" />
+            Explore Countries <ArrowRight className="w-4 h-4" />
           </Link>
         </div>
 
-        <div className="flex gap-2 mb-8 overflow-x-auto pb-2">
+        <div className="flex gap-2 mb-8 overflow-x-auto pb-2 text-xs md:text-sm">
           {tabs.map(tab => (
             <button
               key={tab}
               onClick={() => setActiveTab(tab)}
-              className={`px-5 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-all ${
+              className={`px-5 py-2 rounded-full font-medium whitespace-nowrap transition-all ${
                 activeTab === tab
                   ? 'bg-[#003D52] text-white shadow-md'
                   : 'bg-white text-slate-600 hover:bg-slate-100 border border-slate-200'
@@ -90,7 +93,7 @@ const VisaCards = () => {
                     <div className="text-[10px] uppercase tracking-wider text-slate-500 font-semibold">{visa.visa_format}</div>
                     <div className="text-base font-bold text-[#003D52]">{visa.price}</div>
                   </div>
-                  <Link to="/apply">
+                  <Link to="/apply" state={{ country: visa.name, visaType: visa.visa_type }}>
                     <Button size="sm" variant="ghost" className="text-[#FF2A2A] hover:bg-[#FF2A2A]/10 hover:text-[#FF2A2A] -mr-2">
                       Apply <ArrowRight className="w-3.5 h-3.5 ml-1" />
                     </Button>
@@ -101,10 +104,10 @@ const VisaCards = () => {
           ))}
         </div>
 
-        <div className="text-center mt-10 md:hidden">
-          <Link to="/visa">
-            <Button variant="outline" className="border-[#003D52] text-[#003D52]">
-              View All Countries <ArrowRight className="w-4 h-4 ml-1" />
+        <div className="text-center mt-12">
+          <Link to="/apply">
+            <Button className="bg-[#FF2A2A] hover:bg-[#E01F1F] text-white px-8 h-12 rounded-xl font-bold shadow-lg shadow-[#FF2A2A]/20 transition-all hover:-translate-y-1">
+              View More & Apply Now <ArrowRight className="w-5 h-5 ml-2" />
             </Button>
           </Link>
         </div>

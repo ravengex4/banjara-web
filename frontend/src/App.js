@@ -15,6 +15,7 @@ import Apply from './pages/Apply';
 import Track from './pages/Track';
 import Contact from './pages/Contact';
 import Blog from './pages/Blog';
+import Tickets from './pages/Tickets';
 import B2B from './pages/B2B';
 import Login from './pages/Login';
 import Register from './pages/Register';
@@ -41,6 +42,7 @@ function App() {
             <Route path="/apply" element={<Apply />} />
             <Route path="/track" element={<Track />} />
             <Route path="/blog" element={<Blog />} />
+            <Route path="/tickets" element={<Tickets />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/b2b" element={<B2B />} />
             <Route path="/login" element={<Login />} />

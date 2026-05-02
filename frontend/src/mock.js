@@ -76,7 +76,7 @@ export const faqs = [
 ];
 
 export const offices = [
-  { id: 1, city: 'Hyderabad', address: 'Banjara Hills, Road No. 12, Hyderabad, Telangana 500034', phone: '+91 98765 43210', email: 'banjaratrvel@gmail.com' },
+  { id: 1, city: 'Hyderabad', address: 'Banjara Hills, Road No. 12, Hyderabad, Telangana 500034', phone: '+91 98765 43210', email: 'banjaratravel@gmail.com' },
   { id: 2, city: 'Delhi', address: 'Connaught Place, Block A, New Delhi 110001', phone: '+91 98765 43211', email: 'delhi@banjaratours.in' },
   { id: 3, city: 'Mumbai', address: 'Andheri East, Mumbai, Maharashtra 400069', phone: '+91 98765 43212', email: 'mumbai@banjaratours.in' },
   { id: 4, city: 'Bengaluru', address: 'MG Road, Bengaluru, Karnataka 560001', phone: '+91 98765 43213', email: 'bengaluru@banjaratours.in' },

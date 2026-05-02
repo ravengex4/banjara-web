@@ -10,6 +10,7 @@ const navLinks = [
   { label: 'About', path: '/about' },
   { label: 'Services', path: '/services' },
   { label: 'Visa', path: '/visa' },
+  { label: 'Tickets', path: '/tickets' },
   { label: 'Indian Visa', path: '/india-visa' },
   { label: 'B2B Partner', path: '/b2b' },
   { label: 'Blog', path: '/blog' },
@@ -52,8 +53,8 @@ const Header = () => {
             <a href="tel:+919515162008" className="flex items-center gap-1.5 hover:text-[#00C2E6] transition-colors border-l border-white/20 pl-3">
               <Phone className="w-3 h-3" /> 95151 62008
             </a>
-            <a href="mailto:banjaratrvel@gmail.com" className="flex items-center gap-1.5 hover:text-[#00C2E6] transition-colors border-l border-white/20 pl-3">
-              <Mail className="w-3 h-3" /> banjaratrvel@gmail.com
+            <a href="mailto:banjaratravel@gmail.com" className="flex items-center gap-1.5 hover:text-[#00C2E6] transition-colors border-l border-white/20 pl-3">
+              <Mail className="w-3 h-3" /> banjaratravel@gmail.com
             </a>
           </div>
           <div className="flex items-center gap-5">

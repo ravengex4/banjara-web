@@ -94,7 +94,7 @@ const About = () => {
               <span className="font-bold text-[#003D52]">Phone:</span> +91 99599 40008
             </div>
             <div className="flex items-center gap-2">
-              <span className="font-bold text-[#003D52]">Email:</span> banjaratrvel@gmail.com
+              <span className="font-bold text-[#003D52]">Email:</span> banjaratravel@gmail.com
             </div>
           </div>
           <div className="mt-8">
