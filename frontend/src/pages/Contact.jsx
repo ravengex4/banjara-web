@@ -50,14 +50,16 @@ const Contact = () => {
     <SimplePage title="Get In Touch" subtitle="Have questions? Our visa experts are here to help. Reach out via form, phone, email, or visit a branch." breadcrumb="Contact">
       <SEO
         title="Contact Us — Visa Experts in India"
-        description="Reach Banjara Tours visa experts. Office at Plot 150, Phase 3, Kamalapuri Colony, Hyderabad. Phone +91 99599 40008, email info@banjaratours.in. Open Mon–Sat 9am–7pm IST."
+        description="Reach BanjaraTravels visa experts. Office at Plot 150, Phase 3, Kamalapuri Colony, Hyderabad. Phone +91 99599 40008, email banjaratrvel@gmail.com. Open Mon–Sat 9am–7pm IST."
         path="/contact"
         jsonLd={[orgSchema(), breadcrumbSchema([{ name: 'Home', path: '/' }, { name: 'Contact', path: '/contact' }])]}
       />
       <div className="grid lg:grid-cols-3 gap-6 mb-12">
         {[
-          { icon: Phone, title: 'Call Us', text: '+91 99599 40008', sub: 'Mon–Sat, 9am–7pm IST' },
-          { icon: Mail, title: 'Email Us', text: 'info@banjaratours.in', sub: 'Reply within 24 hours' },
+          { icon: Phone, title: 'Call Us', text: '+91 99599 40008', sub: 'Primary Support' },
+          { icon: Phone, title: 'Contact Support', text: '78429 64008', sub: 'Visa Assistance' },
+          { icon: Phone, title: 'Support Desk', text: '95151 62008', sub: 'Documentation' },
+          { icon: Mail, title: 'Email Us', text: 'banjaratrvel@gmail.com', sub: 'Reply within 24 hours' },
           { icon: Clock, title: 'Working Hours', text: 'Mon – Sat', sub: '9:00 AM – 7:00 PM' },
         ].map((item, i) => (
           <div key={i} className="bg-white border border-slate-200 rounded-2xl p-6 hover:border-[#FF2A2A]/40 hover:shadow-lg transition-all flex items-start gap-4">

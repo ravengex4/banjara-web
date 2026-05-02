@@ -36,10 +36,9 @@ const Footer = () => {
           {/* Brand */}
           <div>
             <Link to="/" className="flex items-center gap-2.5 mb-4">
-              <img src="/assets/logo.webp" alt="Banjara Tours and Travels" className="w-12 h-12 object-contain bg-white rounded p-1" />
+              <img src="/assets/logo.webp" alt="BanjaraTravels" className="w-12 h-12 object-contain bg-white rounded p-1" />
               <div className="leading-tight">
-                <div className="font-bold text-white text-lg">Banjara Tours</div>
-                <div className="text-[10px] uppercase tracking-widest text-[#00C2E6] font-semibold">& Travels</div>
+                <div className="font-bold text-white text-lg">BanjaraTravels</div>
               </div>
             </Link>
             <p className="text-sm text-slate-400 leading-relaxed mb-4">
@@ -47,12 +46,12 @@ const Footer = () => {
             </p>
             <div className="flex gap-2">
               {[
-                { icon: Facebook, href: '#' },
-                { icon: Instagram, href: '#' },
-                { icon: Linkedin, href: '#' },
-                { icon: Twitter, href: '#' },
+                { icon: Facebook, href: '#', label: 'Facebook' },
+                { icon: Instagram, href: '#', label: 'Instagram' },
+                { icon: Linkedin, href: '#', label: 'LinkedIn' },
+                { icon: Twitter, href: '#', label: 'Twitter' },
               ].map((s, i) => (
-                <a key={i} href={s.href} className="w-9 h-9 rounded-full bg-white/10 hover:bg-[#FF2A2A] flex items-center justify-center transition-colors">
+                <a key={i} href={s.href} aria-label={s.label} className="w-9 h-9 rounded-full bg-white/10 hover:bg-[#FF2A2A] flex items-center justify-center transition-colors">
                   <s.icon className="w-4 h-4" />
                 </a>
               ))}
@@ -92,12 +91,16 @@ const Footer = () => {
                 <a href="https://maps.app.goo.gl/GaraAwM7jqhts5Pz8" target="_blank" rel="noopener noreferrer" className="hover:text-[#00C2E6]">Plot No 150, Phase 3, Kamalapuri Colony, Hyderabad 500073</a>
               </li>
               <li className="flex gap-2.5 text-slate-400">
-                <Phone className="w-4 h-4 text-[#00C2E6] flex-shrink-0" />
-                <a href="tel:+919959940008" className="hover:text-[#00C2E6]">+91 99599 40008</a>
+                <Phone className="w-4 h-4 text-[#00C2E6] flex-shrink-0 mt-1" />
+                <div className="flex flex-col gap-1">
+                  <a href="tel:+919959940008" className="hover:text-[#00C2E6]">+91 99599 40008</a>
+                  <a href="tel:+917842964008" className="hover:text-[#00C2E6]">78429 64008</a>
+                  <a href="tel:+919515162008" className="hover:text-[#00C2E6]">95151 62008</a>
+                </div>
               </li>
               <li className="flex gap-2.5 text-slate-400">
                 <Mail className="w-4 h-4 text-[#00C2E6] flex-shrink-0" />
-                <a href="mailto:info@banjaratours.in" className="hover:text-[#00C2E6]">info@banjaratours.in</a>
+                <a href="mailto:banjaratrvel@gmail.com" className="hover:text-[#00C2E6]">banjaratrvel@gmail.com</a>
               </li>
             </ul>
             <form onSubmit={handleSubscribe} className="flex gap-2">
@@ -116,7 +119,7 @@ const Footer = () => {
         </div>
 
         <div className="border-t border-white/10 pt-6 flex flex-col md:flex-row justify-between items-center gap-3 text-xs text-slate-500">
-          <p>© 2025 Banjara Tours and Travels. All rights reserved.</p>
+          <p>© 2026 BanjaraTravels. All rights reserved.</p>
           <div className="flex gap-5">
             <a href="#" className="hover:text-[#00C2E6]">Privacy Policy</a>
             <a href="#" className="hover:text-[#00C2E6]">Terms & Conditions</a>

@@ -7,19 +7,31 @@ import { Badge } from '../components/ui/badge';
 import { useTable } from '../lib/useTable';
 import { Link } from 'react-router-dom';
 import { SEO, orgSchema, breadcrumbSchema } from '../lib/SEO';
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '../components/ui/collapsible';
+import { ChevronDown, ChevronUp, CheckCircle2 } from 'lucide-react';
+import { countryVisas } from '../mock';
+import VisaInquiryModal from '../components/VisaInquiryModal';
 
 const Visa = () => {
   const [search, setSearch] = useState('');
   const [filter, setFilter] = useState('All');
-  const { data: countries, loading } = useTable('countries');
+  const [selectedVisa, setSelectedVisa] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [expandedVisa, setExpandedVisa] = useState(null);
+  const { data: dbCountries, loading } = useTable('countries');
+  const countries = dbCountries.length > 0 ? dbCountries : countryVisas;
 
   const filtered = countries.filter(v => {
-    const matchesSearch = v.name.toLowerCase().includes(search.toLowerCase());
+    const name = v.name || v.country || '';
+    const type = v.visa_type || v.type || '';
+    const format = v.visa_format || v.visaType || '';
+    
+    const matchesSearch = name.toLowerCase().includes(search.toLowerCase());
     const matchesFilter =
       filter === 'All' ||
-      v.visa_format === filter ||
-      (filter === 'Tourist' && (v.visa_type || '').includes('Tourist')) ||
-      (filter === 'Business' && (v.visa_type || '').includes('Business'));
+      format === filter ||
+      (filter === 'Tourist' && type.includes('Tourist')) ||
+      (filter === 'Business' && type.includes('Business'));
     return matchesSearch && matchesFilter;
   });
 
@@ -63,34 +75,71 @@ const Visa = () => {
           {filtered.map(visa => (
             <div key={visa.id} className="group bg-white rounded-2xl overflow-hidden border border-slate-200 hover:border-[#FF2A2A]/40 hover:shadow-xl hover:-translate-y-1 transition-all">
               <div className="relative h-36 overflow-hidden bg-slate-100">
-                <img src={visa.flag_url} alt={visa.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+                <img src={visa.flag_url || visa.flag} alt={visa.name || visa.country} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" loading="lazy" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
                 {visa.popular && <Badge className="absolute top-3 right-3 bg-[#00C2E6] hover:bg-[#00C2E6] text-white border-0 text-[10px]">POPULAR</Badge>}
                 <div className="absolute bottom-3 left-3 text-white">
-                  <div className="text-xs opacity-90">{visa.visa_type}</div>
-                  <div className="font-bold text-sm">{visa.name}</div>
+                  <div className="text-xs opacity-90">{visa.visa_type || visa.type}</div>
+                  <div className="font-bold text-sm">{visa.name || visa.country}</div>
                 </div>
               </div>
               <div className="p-4">
                 <div className="flex items-center gap-1.5 text-xs text-slate-500 mb-2">
-                  <Clock className="w-3.5 h-3.5" /><span>{visa.processing_time}</span>
+                  <Clock className="w-3.5 h-3.5" /><span>{visa.processing_time || visa.processingTime}</span>
                 </div>
                 <div className="flex items-end justify-between">
-                  <div>
-                    <div className="text-[10px] uppercase tracking-wider text-slate-500 font-semibold">{visa.visa_format}</div>
+                  <div className="flex flex-col gap-2">
+                    <div className="text-[10px] uppercase tracking-wider text-slate-500 font-semibold">{visa.visa_format || visa.visaType}</div>
                     <div className="text-base font-bold text-[#003D52]">{visa.price}</div>
                   </div>
-                  <Link to="/apply">
-                    <Button size="sm" variant="ghost" className="text-[#FF2A2A] hover:bg-[#FF2A2A]/10 hover:text-[#FF2A2A]">
-                      Apply <ArrowRight className="w-3.5 h-3.5 ml-1" />
-                    </Button>
-                  </Link>
+                  <Button 
+                    size="sm" 
+                    className="bg-[#FF2A2A] hover:bg-[#E01F1F] text-white"
+                    onClick={() => {
+                      setSelectedVisa(visa);
+                      setIsModalOpen(true);
+                    }}
+                  >
+                    Apply Now
+                  </Button>
                 </div>
+
+                <Collapsible 
+                  open={expandedVisa === visa.id} 
+                  onOpenChange={() => setExpandedVisa(expandedVisa === visa.id ? null : visa.id)}
+                  className="mt-4 pt-4 border-t border-slate-100"
+                >
+                  <CollapsibleTrigger asChild>
+                    <Button variant="ghost" size="sm" className="w-full justify-between text-xs text-slate-500 hover:text-[#003D52] h-8 px-2">
+                      {expandedVisa === visa.id ? 'Hide Requirements' : 'View Requirements'}
+                      {expandedVisa === visa.id ? <ChevronUp className="w-3 h-3" /> : <ChevronDown className="w-3 h-3" />}
+                    </Button>
+                  </CollapsibleTrigger>
+                  <CollapsibleContent className="mt-2 space-y-1.5">
+                    {[
+                      'Valid Passport',
+                      'Photographs',
+                      'Bank Statement',
+                      ...((visa.visa_type || visa.type || '').includes('Business') ? ['Invitation Letter'] : ['Hotel/Flight Bookings'])
+                    ].map((req, idx) => (
+                      <div key={idx} className="flex items-center gap-2 text-[11px] text-slate-600">
+                        <CheckCircle2 className="w-3 h-3 text-green-500 flex-shrink-0" />
+                        {req}
+                      </div>
+                    ))}
+                  </CollapsibleContent>
+                </Collapsible>
               </div>
             </div>
           ))}
         </div>
       )}
+
+      <VisaInquiryModal 
+        isOpen={isModalOpen} 
+        onOpenChange={setIsModalOpen} 
+        visaData={selectedVisa} 
+      />
       {!loading && filtered.length === 0 && (
         <div className="text-center py-20 text-slate-500">No countries match your search.</div>
       )}

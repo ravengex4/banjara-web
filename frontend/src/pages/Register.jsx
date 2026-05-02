@@ -55,10 +55,9 @@ const Register = () => {
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#E9EEF2] via-white to-[#BFEAF7]/40 px-4 py-10">
       <div className="w-full max-w-md">
         <Link to="/" className="flex items-center justify-center gap-2.5 mb-8">
-          <img src="/assets/logo.png" alt="Banjara Tours and Travels" className="w-14 h-14 object-contain" />
+          <img src="/assets/logo.webp" alt="BanjaraTravels" className="w-14 h-14 object-contain" />
           <div className="leading-tight text-left">
-            <div className="font-bold text-[#003D52] text-lg">Banjara Tours</div>
-            <div className="text-[10px] uppercase tracking-widest text-[#FF2A2A] font-semibold">& Travels</div>
+            <div className="font-bold text-[#003D52] text-lg">BanjaraTravels</div>
           </div>
         </Link>
 

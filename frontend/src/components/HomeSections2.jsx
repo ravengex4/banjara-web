@@ -4,7 +4,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from './
 import { useTable } from '../lib/useTable';
 import { Button } from './ui/button';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Plane } from 'lucide-react';
+import { ArrowRight, Plane, Phone, Mail } from 'lucide-react';
 
 export const Testimonials = () => {
   const { data: testimonials } = useTable('testimonials');
@@ -29,10 +29,10 @@ export const Testimonials = () => {
             </p>
           </div>
           <div className="flex gap-2">
-            <Button onClick={prev} disabled={index === 0} variant="outline" size="icon" className="rounded-full border-slate-300 disabled:opacity-30">
+            <Button onClick={prev} disabled={index === 0} variant="outline" size="icon" aria-label="Previous testimonial" className="rounded-full border-slate-300 disabled:opacity-30">
               <ChevronLeft className="w-4 h-4" />
             </Button>
-            <Button onClick={next} disabled={index === max} variant="outline" size="icon" className="rounded-full border-slate-300 disabled:opacity-30">
+            <Button onClick={next} disabled={index === max} variant="outline" size="icon" aria-label="Next testimonial" className="rounded-full border-slate-300 disabled:opacity-30">
               <ChevronRight className="w-4 h-4" />
             </Button>
           </div>
@@ -133,11 +133,14 @@ export const CTA = () => (
                   Apply Now <ArrowRight className="w-4 h-4" />
                 </Button>
               </Link>
-              <Link to="/contact">
-                <Button variant="outline" className="bg-transparent border-white/30 text-white hover:bg-white hover:text-[#003D52] h-12 px-7">
-                  Talk to Expert
-                </Button>
-              </Link>
+              <div className="flex flex-col sm:flex-row gap-3">
+                <a href="tel:+919959940008" className="inline-flex items-center justify-center bg-white text-[#003D52] hover:bg-[#BFEAF7] h-12 px-7 rounded-md font-semibold transition-colors gap-2">
+                  <Phone className="w-4 h-4" /> Call Expert
+                </a>
+                <a href="mailto:banjaratrvel@gmail.com" className="inline-flex items-center justify-center border border-white/30 text-white hover:bg-white/10 h-12 px-7 rounded-md font-semibold transition-colors gap-2">
+                  <Mail className="w-4 h-4" /> Email Us
+                </a>
+              </div>
             </div>
           </div>
           <div className="hidden md:block relative">
@@ -145,6 +148,7 @@ export const CTA = () => (
               src="https://images.unsplash.com/photo-1686278530308-1e6ef38b5ed6"
               alt="Airplane in sky"
               className="rounded-2xl shadow-2xl h-72 w-full object-cover"
+              loading="lazy"
             />
           </div>
         </div>

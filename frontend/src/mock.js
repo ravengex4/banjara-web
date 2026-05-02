@@ -1,26 +1,28 @@
-// Mock data for Banjara Tours and Travels
+// Mock data for BanjaraTravels
 
 export const countryVisas = [
-  { id: 1, country: 'United Arab Emirates', flag: 'https://flagcdn.com/w320/ae.png', type: 'Tourist Visa', processingTime: '4 Working days', visaType: 'e-Visa', price: 'INR 4,700', popular: true },
-  { id: 2, country: 'United Kingdom', flag: 'https://flagcdn.com/w320/gb.png', type: 'Tourist Visa', processingTime: '30 Working days', visaType: 'Stamp Visa', price: 'INR 1,32,799' },
-  { id: 3, country: 'Switzerland', flag: 'https://flagcdn.com/w320/ch.png', type: 'Business Visa', processingTime: '15 Working days', visaType: 'Stamp Visa', price: 'INR 14,904' },
-  { id: 4, country: 'Singapore', flag: 'https://flagcdn.com/w320/sg.png', type: 'Business Visa', processingTime: '10 Working days', visaType: 'e-Visa', price: 'INR 3,490' },
-  { id: 5, country: 'Qatar', flag: 'https://flagcdn.com/w320/qa.png', type: 'Tourist Visa', processingTime: '4 Working days', visaType: 'e-Visa', price: 'INR 5,500' },
-  { id: 6, country: 'Kenya', flag: 'https://flagcdn.com/w320/ke.png', type: 'Tourist Visa', processingTime: '4 Working days', visaType: 'e-Visa', price: 'INR 4,300' },
-  { id: 7, country: 'Jordan', flag: 'https://flagcdn.com/w320/jo.png', type: 'Tourist Visa', processingTime: '1 Working Day', visaType: 'e-Visa', price: 'INR 7,590' },
-  { id: 8, country: 'United States', flag: 'https://flagcdn.com/w320/us.png', type: 'Tourist Visa', processingTime: '10-15 Days after Appt.', visaType: 'Stamp Visa', price: 'USD 205', popular: true },
-  { id: 9, country: 'Russia', flag: 'https://flagcdn.com/w320/ru.png', type: 'Tourist Visa', processingTime: '5 Working days', visaType: 'e-Visa', price: 'INR 5,800' },
-  { id: 10, country: 'Laos', flag: 'https://flagcdn.com/w320/la.png', type: 'Tourist Visa', processingTime: '5 Working days', visaType: 'e-Visa', price: 'INR 6,906' },
-  { id: 11, country: 'China', flag: 'https://flagcdn.com/w320/cn.png', type: 'Business Visa', processingTime: '7-8 Working days', visaType: 'Stamp Visa', price: 'INR 6,280' },
-  { id: 12, country: 'Georgia', flag: 'https://flagcdn.com/w320/ge.png', type: 'Tourist Visa', processingTime: '5 Working days', visaType: 'e-Visa', price: 'INR 4,000' },
-  { id: 13, country: 'Bangladesh', flag: 'https://flagcdn.com/w320/bd.png', type: 'Tourist Visa', processingTime: '5 Working days', visaType: 'Normal Visa', price: 'INR 2,500' },
-  { id: 14, country: 'Egypt', flag: 'https://flagcdn.com/w320/eg.png', type: 'Tourist Visa', processingTime: '3-5 Working Days', visaType: 'e-Visa', price: 'INR 6,668' },
-  { id: 15, country: 'Azerbaijan', flag: 'https://flagcdn.com/w320/az.png', type: 'Tourist Visa', processingTime: '5 Working days', visaType: 'e-Visa', price: 'INR 3,200' },
-  { id: 16, country: 'Australia', flag: 'https://flagcdn.com/w320/au.png', type: 'Tourist Visa', processingTime: '20-25 Working days', visaType: 'e-Visa', price: 'INR 12,500', popular: true },
-  { id: 17, country: 'Canada', flag: 'https://flagcdn.com/w320/ca.png', type: 'Tourist Visa', processingTime: '25-30 Working days', visaType: 'Stamp Visa', price: 'INR 8,900' },
-  { id: 18, country: 'Thailand', flag: 'https://flagcdn.com/w320/th.png', type: 'Tourist Visa', processingTime: '3 Working days', visaType: 'e-Visa', price: 'INR 2,800' },
-  { id: 19, country: 'Malaysia', flag: 'https://flagcdn.com/w320/my.png', type: 'Tourist Visa', processingTime: '4 Working days', visaType: 'e-Visa', price: 'INR 3,200' },
-  { id: 20, country: 'Vietnam', flag: 'https://flagcdn.com/w320/vn.png', type: 'Tourist Visa', processingTime: '5 Working days', visaType: 'e-Visa', price: 'INR 2,950' },
+  { id: 1, name: 'United Arab Emirates', flag_url: 'https://flagcdn.com/w320/ae.png', visa_type: 'Tourist Visa', processing_time: '4 Working days', visa_format: 'e-Visa', price: 'INR 8,200', popular: true },
+  { id: 2, name: 'United Kingdom', flag_url: 'https://flagcdn.com/w320/gb.png', visa_type: 'Tourist Visa', processing_time: '30 Working days', visa_format: 'Stamp Visa', price: 'INR 29,000' },
+  { id: 3, name: 'Switzerland', flag_url: 'https://flagcdn.com/w320/ch.png', visa_type: 'Business Visa', processing_time: '15 Working days', visa_format: 'Stamp Visa', price: 'INR 14,904' },
+  { id: 4, name: 'Singapore', flag_url: 'https://flagcdn.com/w320/sg.png', visa_type: 'Business Visa', processing_time: '10 Working days', visa_format: 'e-Visa', price: 'INR 9,900' },
+  { id: 5, name: 'Qatar', flag_url: 'https://flagcdn.com/w320/qa.png', visa_type: 'Tourist Visa', processing_time: '4 Working days', visa_format: 'e-Visa', price: 'INR 3,000' },
+  { id: 6, name: 'Kenya', flag_url: 'https://flagcdn.com/w320/ke.png', visa_type: 'Tourist Visa', processing_time: '4 Working days', visa_format: 'e-Visa', price: 'INR 4,300' },
+  { id: 7, name: 'Jordan', flag_url: 'https://flagcdn.com/w320/jo.png', visa_type: 'Tourist Visa', processing_time: '1 Working Day', visa_format: 'e-Visa', price: 'INR 7,590' },
+  { id: 8, name: 'United States', flag_url: 'https://flagcdn.com/w320/us.png', visa_type: 'Tourist Visa', processing_time: '10-15 Days after Appt.', visa_format: 'Stamp Visa', price: 'INR 29,000', popular: true },
+  { id: 9, name: 'Russia', flag_url: 'https://flagcdn.com/w320/ru.png', visa_type: 'Tourist Visa', processing_time: '5 Working days', visa_format: 'e-Visa', price: 'INR 5,800' },
+  { id: 10, name: 'Laos', flag_url: 'https://flagcdn.com/w320/la.png', visa_type: 'Tourist Visa', processing_time: '5 Working days', visa_format: 'e-Visa', price: 'INR 6,900' },
+  { id: 11, name: 'China', flag_url: 'https://flagcdn.com/w320/cn.png', visa_type: 'Business Visa', processing_time: '7-8 Working days', visa_format: 'Stamp Visa', price: 'INR 8,000' },
+  { id: 12, name: 'Georgia', flag_url: 'https://flagcdn.com/w320/ge.png', visa_type: 'Tourist Visa', processing_time: '5 Working days', visa_format: 'e-Visa', price: 'INR 4,000' },
+  { id: 13, name: 'Bangladesh', flag_url: 'https://flagcdn.com/w320/bd.png', visa_type: 'Tourist Visa', processing_time: '5 Working days', visa_format: 'Normal Visa', price: 'INR 2,500' },
+  { id: 14, name: 'Egypt', flag_url: 'https://flagcdn.com/w320/eg.png', visa_type: 'Tourist Visa', processing_time: '3-5 Working Days', visa_format: 'e-Visa', price: 'INR 6,668' },
+  { id: 15, name: 'Azerbaijan', flag_url: 'https://flagcdn.com/w320/az.png', visa_type: 'Tourist Visa', processing_time: '5 Working days', visa_format: 'e-Visa', price: 'INR 3,200' },
+  { id: 16, name: 'Australia', flag_url: 'https://flagcdn.com/w320/au.png', visa_type: 'Tourist Visa', processing_time: '20-25 Working days', visa_format: 'e-Visa', price: 'INR 12,500', popular: true },
+  { id: 17, name: 'Canada', flag_url: 'https://flagcdn.com/w320/ca.png', visa_type: 'Tourist Visa', processing_time: '25-30 Working days', visa_format: 'Stamp Visa', price: 'INR 8,900' },
+  { id: 18, name: 'Thailand', flag_url: 'https://flagcdn.com/w320/th.png', visa_type: 'Tourist Visa', processing_time: '3 Working days', visa_format: 'e-Visa', price: 'INR 2,800' },
+  { id: 19, name: 'Malaysia', flag_url: 'https://flagcdn.com/w320/my.png', visa_type: 'Tourist Visa', processing_time: '4 Working days', visa_format: 'e-Visa', price: 'INR 3,200' },
+  { id: 20, name: 'Vietnam', flag_url: 'https://flagcdn.com/w320/vn.png', visa_type: 'Tourist Visa', processing_time: '5 Working days', visa_format: 'e-Visa', price: 'INR 4,250' },
+  { id: 21, name: 'Cambodia', flag_url: 'https://flagcdn.com/w320/kh.png', visa_type: 'Tourist Visa', processing_time: '3 Working days', visa_format: 'e-Visa', price: 'INR 4,900' },
+  { id: 22, name: 'Oman', flag_url: 'https://flagcdn.com/w320/om.png', visa_type: 'Tourist Visa', processing_time: '3 Working days', visa_format: 'e-Visa', price: 'INR 3,500' },
 ];
 
 export const services = [
@@ -42,11 +44,11 @@ export const steps = [
 ];
 
 export const testimonials = [
-  { id: 1, name: 'Rajesh Kumar', location: 'Hyderabad', rating: 5, text: 'Banjara Tours made my UAE visa process incredibly smooth. Got my visa in just 3 days! Highly recommend their services to anyone looking for hassle-free visa processing.', avatar: 'RK' },
+  { id: 1, name: 'Rajesh Kumar', location: 'Hyderabad', rating: 5, text: 'BanjaraTravels made my UAE visa process incredibly smooth. Got my visa in just 3 days! Highly recommend their services to anyone looking for hassle-free visa processing.', avatar: 'RK' },
   { id: 2, name: 'Priya Sharma', location: 'Delhi', rating: 5, text: 'Excellent service for Schengen visa. The team was supportive throughout the documentation process. Their attention to detail saved me from rejection.', avatar: 'PS' },
   { id: 3, name: 'Mohammed Ali', location: 'Mumbai', rating: 5, text: 'Best visa consultancy in India! They handled my entire family\'s US visa interview prep professionally. Got our visas approved on first attempt.', avatar: 'MA' },
   { id: 4, name: 'Anita Reddy', location: 'Bengaluru', rating: 5, text: 'Quick attestation services. MEA attestation done within a week. The team is knowledgeable and very responsive on WhatsApp.', avatar: 'AR' },
-  { id: 5, name: 'Vikram Singh', location: 'Chennai', rating: 5, text: 'As a frequent business traveler, I rely on Banjara Tours for all my visa needs. Their B2B portal is intuitive and saves us a lot of time.', avatar: 'VS' },
+  { id: 5, name: 'Vikram Singh', location: 'Chennai', rating: 5, text: 'As a frequent business traveler, I rely on BanjaraTravels for all my visa needs. Their B2B portal is intuitive and saves us a lot of time.', avatar: 'VS' },
   { id: 6, name: 'Sneha Patel', location: 'Pune', rating: 5, text: 'Got my UK student visa with their help. They guided me through every step and helped with the financial documentation. Truly grateful!', avatar: 'SP' },
 ];
 
@@ -61,7 +63,7 @@ export const trustBadges = [
   { id: 1, title: 'Visa on Time', description: 'Guaranteed processing within timeline', icon: 'Clock' },
   { id: 2, title: '24x7 Call Support', description: 'Round-the-clock customer assistance', icon: 'Headphones' },
   { id: 3, title: '50K+ Applications', description: 'Processed successfully nationwide', icon: 'Users' },
-  { id: 4, title: 'IATA Certified', description: 'Recognized travel agency partner', icon: 'Award' },
+  { id: 4, title: 'Trusted Partner', description: 'Recognized travel agency partner', icon: 'Award' },
 ];
 
 export const faqs = [
@@ -74,7 +76,7 @@ export const faqs = [
 ];
 
 export const offices = [
-  { id: 1, city: 'Hyderabad', address: 'Banjara Hills, Road No. 12, Hyderabad, Telangana 500034', phone: '+91 98765 43210', email: 'hyderabad@banjaratours.in' },
+  { id: 1, city: 'Hyderabad', address: 'Banjara Hills, Road No. 12, Hyderabad, Telangana 500034', phone: '+91 98765 43210', email: 'banjaratrvel@gmail.com' },
   { id: 2, city: 'Delhi', address: 'Connaught Place, Block A, New Delhi 110001', phone: '+91 98765 43211', email: 'delhi@banjaratours.in' },
   { id: 3, city: 'Mumbai', address: 'Andheri East, Mumbai, Maharashtra 400069', phone: '+91 98765 43212', email: 'mumbai@banjaratours.in' },
   { id: 4, city: 'Bengaluru', address: 'MG Road, Bengaluru, Karnataka 560001', phone: '+91 98765 43213', email: 'bengaluru@banjaratours.in' },

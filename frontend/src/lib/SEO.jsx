@@ -2,9 +2,9 @@ import React from 'react';
 import { Helmet } from 'react-helmet-async';
 
 const SITE_URL = 'https://explore-banjara.preview.emergentagent.com';
-const SITE_NAME = 'Banjara Tours and Travels';
+const SITE_NAME = 'BanjaraTravels';
 const DEFAULT_DESC = 'India\'s most trusted visa consultancy. Apply visa for 150+ countries with transparent pricing, expert document review, real-time tracking and on-time delivery.';
-const LOGO = `${SITE_URL}/assets/logo.png`;
+const LOGO = `${SITE_URL}/assets/logo.webp`;
 const OG_IMAGE = `${SITE_URL}/assets/og-image.png`;
 
 export const SEO = ({
@@ -59,13 +59,13 @@ export const orgSchema = () => ({
   '@context': 'https://schema.org',
   '@type': 'TravelAgency',
   name: SITE_NAME,
-  legalName: 'Banjara Tours and Travels',
+  legalName: 'BanjaraTravels',
   url: SITE_URL,
   logo: LOGO,
   image: LOGO,
   description: DEFAULT_DESC,
-  telephone: '+91-9959940008',
-  email: 'info@banjaratours.in',
+  telephone: '+91-9959940008, +91-7842964008, +91-9515162008',
+  email: 'banjaratrvel@gmail.com',
   address: {
     '@type': 'PostalAddress',
     streetAddress: 'Plot No 150, Phase 3, Kamalapuri Colony',

@@ -52,10 +52,10 @@ const B2B = () => {
   };
 
   return (
-    <SimplePage title="B2B Partner Portal" subtitle="Become a Banjara sub-agent and grow your travel agency with reliable visa services." breadcrumb="B2B Partner">
+    <SimplePage title="B2B Partner Portal" subtitle="Become a BanjaraTravels sub-agent and grow your travel agency with reliable visa services." breadcrumb="B2B Partner">
       <SEO
         title="B2B Visa Sub-Agent Portal for Travel Agencies"
-        description="Partner with Banjara Tours as a B2B visa sub-agent. Bulk processing, competitive margins, dedicated account manager, white-label reports for travel agencies in India."
+        description="Partner with BanjaraTravels as a B2B visa sub-agent. Bulk processing, competitive margins, dedicated account manager, white-label reports for travel agencies in India."
         path="/b2b"
         jsonLd={[orgSchema(), breadcrumbSchema([{ name: 'Home', path: '/' }, { name: 'B2B Partner', path: '/b2b' }])]}
       />
@@ -76,7 +76,7 @@ const B2B = () => {
           <div className="text-[#FF2A2A] text-sm font-semibold uppercase tracking-wider mb-3">Why Partner With Us</div>
           <h2 className="text-3xl font-bold text-[#003D52] mb-5">Grow Your Travel Business Without the Visa Hassle</h2>
           <p className="text-slate-600 leading-relaxed mb-6">
-            Travel agents across India trust Banjara as their dedicated visa back-office. Focus on selling holidays — we handle visas, attestation, and FRRO end-to-end.
+            Travel agents across India trust BanjaraTravels as their dedicated visa back-office. Focus on selling holidays — we handle visas, attestation, and FRRO end-to-end.
           </p>
           <ul className="space-y-3 mb-6">
             {[

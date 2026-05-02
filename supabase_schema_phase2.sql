@@ -136,17 +136,17 @@ create table if not exists public.services (
 
 -- Countries
 insert into public.countries (name, flag_url, visa_type, processing_time, visa_format, price, popular, sort_order) values
-  ('United Arab Emirates', 'https://flagcdn.com/w320/ae.png', 'Tourist Visa', '4 Working days', 'e-Visa', 'INR 4,700', true, 1),
-  ('United Kingdom', 'https://flagcdn.com/w320/gb.png', 'Tourist Visa', '30 Working days', 'Stamp Visa', 'INR 1,32,799', false, 2),
+  ('United Arab Emirates', 'https://flagcdn.com/w320/ae.png', 'Tourist Visa', '4 Working days', 'e-Visa', 'INR 8,200', true, 1),
+  ('United Kingdom', 'https://flagcdn.com/w320/gb.png', 'Tourist Visa', '30 Working days', 'Stamp Visa', 'INR 29,000', false, 2),
   ('Switzerland', 'https://flagcdn.com/w320/ch.png', 'Business Visa', '15 Working days', 'Stamp Visa', 'INR 14,904', false, 3),
-  ('Singapore', 'https://flagcdn.com/w320/sg.png', 'Business Visa', '10 Working days', 'e-Visa', 'INR 3,490', false, 4),
-  ('Qatar', 'https://flagcdn.com/w320/qa.png', 'Tourist Visa', '4 Working days', 'e-Visa', 'INR 5,500', false, 5),
+  ('Singapore', 'https://flagcdn.com/w320/sg.png', 'Business Visa', '10 Working days', 'e-Visa', 'INR 9,900', false, 4),
+  ('Qatar', 'https://flagcdn.com/w320/qa.png', 'Tourist Visa', '4 Working days', 'e-Visa', 'INR 3,000', false, 5),
   ('Kenya', 'https://flagcdn.com/w320/ke.png', 'Tourist Visa', '4 Working days', 'e-Visa', 'INR 4,300', false, 6),
   ('Jordan', 'https://flagcdn.com/w320/jo.png', 'Tourist Visa', '1 Working Day', 'e-Visa', 'INR 7,590', false, 7),
-  ('United States', 'https://flagcdn.com/w320/us.png', 'Tourist Visa', '10-15 Days after Appt.', 'Stamp Visa', 'USD 205', true, 8),
+  ('United States', 'https://flagcdn.com/w320/us.png', 'Tourist Visa', '10-15 Days after Appt.', 'Stamp Visa', 'INR 29,000', true, 8),
   ('Russia', 'https://flagcdn.com/w320/ru.png', 'Tourist Visa', '5 Working days', 'e-Visa', 'INR 5,800', false, 9),
-  ('Laos', 'https://flagcdn.com/w320/la.png', 'Tourist Visa', '5 Working days', 'e-Visa', 'INR 6,906', false, 10),
-  ('China', 'https://flagcdn.com/w320/cn.png', 'Business Visa', '7-8 Working days', 'Stamp Visa', 'INR 6,280', false, 11),
+  ('Laos', 'https://flagcdn.com/w320/la.png', 'Tourist Visa', '5 Working days', 'e-Visa', 'INR 6,900', false, 10),
+  ('China', 'https://flagcdn.com/w320/cn.png', 'Business Visa', '7-8 Working days', 'Stamp Visa', 'INR 8,000', false, 11),
   ('Georgia', 'https://flagcdn.com/w320/ge.png', 'Tourist Visa', '5 Working days', 'e-Visa', 'INR 4,000', false, 12),
   ('Bangladesh', 'https://flagcdn.com/w320/bd.png', 'Tourist Visa', '5 Working days', 'Normal Visa', 'INR 2,500', false, 13),
   ('Egypt', 'https://flagcdn.com/w320/eg.png', 'Tourist Visa', '3-5 Working Days', 'e-Visa', 'INR 6,668', false, 14),
@@ -155,7 +155,9 @@ insert into public.countries (name, flag_url, visa_type, processing_time, visa_f
   ('Canada', 'https://flagcdn.com/w320/ca.png', 'Tourist Visa', '25-30 Working days', 'Stamp Visa', 'INR 8,900', false, 17),
   ('Thailand', 'https://flagcdn.com/w320/th.png', 'Tourist Visa', '3 Working days', 'e-Visa', 'INR 2,800', false, 18),
   ('Malaysia', 'https://flagcdn.com/w320/my.png', 'Tourist Visa', '4 Working days', 'e-Visa', 'INR 3,200', false, 19),
-  ('Vietnam', 'https://flagcdn.com/w320/vn.png', 'Tourist Visa', '5 Working days', 'e-Visa', 'INR 2,950', false, 20)
+  ('Vietnam', 'https://flagcdn.com/w320/vn.png', 'Tourist Visa', '5 Working days', 'e-Visa', 'INR 4,250', false, 20),
+  ('Cambodia', 'https://flagcdn.com/w320/kh.png', 'Tourist Visa', '3 Working days', 'e-Visa', 'INR 4,900', false, 21),
+  ('Oman', 'https://flagcdn.com/w320/om.png', 'Tourist Visa', '3 Working days', 'e-Visa', 'INR 3,500', false, 22)
 on conflict do nothing;
 
 -- Testimonials

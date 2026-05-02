@@ -34,9 +34,9 @@ const AdminLayout = () => {
       {/* Sidebar */}
       <aside className="w-64 bg-white border-r border-slate-200 flex flex-col flex-shrink-0 sticky top-0 h-screen overflow-y-auto">
         <Link to="/" className="flex items-center gap-2.5 px-5 py-5 border-b border-slate-100">
-          <img src="/assets/logo.png" alt="Banjara Tours" className="w-10 h-10 object-contain" />
+          <img src="/assets/logo.webp" alt="BanjaraTravels" className="w-10 h-10 object-contain" />
           <div className="leading-tight">
-            <div className="font-bold text-[#003D52] text-base">Banjara Admin</div>
+            <div className="font-bold text-[#003D52] text-base">BanjaraTravels</div>
             <div className="text-[10px] uppercase tracking-widest text-[#FF2A2A] font-semibold">Dashboard</div>
           </div>
         </Link>

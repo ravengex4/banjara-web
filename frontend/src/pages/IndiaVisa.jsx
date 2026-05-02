@@ -1,6 +1,6 @@
 import React from 'react';
 import { SimplePage } from './PageHeader';
-import { Plane, Check, ArrowRight, FileText, Globe2, Clock } from 'lucide-react';
+import { Plane, Check, ArrowRight, FileText, Globe2, Clock, Sparkles } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Button } from '../components/ui/button';
 import { SEO, orgSchema, breadcrumbSchema } from '../lib/SEO';
@@ -38,33 +38,83 @@ const IndiaVisa = () => (
       ))}
     </div>
 
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-14">
-      {visaTypes.map((v, i) => (
-        <div key={i} className="bg-white border border-slate-200 rounded-2xl p-6 hover:border-[#FF2A2A]/40 hover:shadow-lg transition-all">
-          <div className="flex items-start justify-between mb-4">
-            <div>
-              <h3 className="text-xl font-bold text-[#003D52] mb-1">{v.type}</h3>
-              <div className="text-xs text-slate-500">Validity: {v.duration}</div>
-            </div>
-            <div className="text-right">
-              <div className="text-xs uppercase tracking-wider text-slate-500 font-semibold">Starting</div>
-              <div className="text-lg font-bold text-[#FF2A2A]">{v.price}</div>
-            </div>
-          </div>
-          <ul className="space-y-2 mb-5">
-            {v.features.map(f => (
-              <li key={f} className="flex items-center gap-2 text-sm text-slate-600">
-                <Check className="w-4 h-4 text-[#FF2A2A]" strokeWidth={3} /> {f}
-              </li>
-            ))}
-          </ul>
-          <Link to="/apply">
-            <Button variant="outline" className="w-full border-[#003D52] text-[#003D52] hover:bg-[#003D52] hover:text-white gap-2">
-              Apply Now <ArrowRight className="w-4 h-4" />
-            </Button>
-          </Link>
+    <div className="bg-white border border-slate-200 rounded-3xl p-8 md:p-12 mb-12 shadow-sm">
+      <div className="flex items-center gap-3 mb-8">
+        <div className="w-10 h-10 rounded-full bg-[#FF2A2A]/10 flex items-center justify-center text-[#FF2A2A]">
+          <FileText className="w-5 h-5" />
         </div>
-      ))}
+        <h2 className="text-2xl md:text-3xl font-bold text-[#003D52]">Documents Required for India Visa</h2>
+      </div>
+
+      <div className="grid md:grid-cols-2 gap-x-12 gap-y-4">
+        {[
+          "Passport with a minimum of six months validity from the date of arrival in India",
+          "Photograph",
+          "Proof of travel plans (return tickets or detailed itinerary)",
+          "Proof of accommodation arrangements during stay in India",
+          "Supporting documents depending on visa type:",
+          "Business invitation letter (Business Visa)",
+          "Conference registration (Conference Visa)",
+          "Medical treatment documents (Medical Visa)",
+          "Parent’s name required during application"
+        ].map((doc, idx) => (
+          <div key={idx} className={`flex items-start gap-3 text-slate-700 ${idx >= 5 && idx <= 7 ? 'ml-8 text-sm' : 'font-medium'}`}>
+            <div className="mt-1 flex-shrink-0">
+              <Check className={`w-4 h-4 ${idx >= 5 && idx <= 7 ? 'text-[#00C2E6]' : 'text-[#FF2A2A]'} font-bold`} strokeWidth={3} />
+            </div>
+            <span>{doc}</span>
+          </div>
+        ))}
+      </div>
+
+      <div className="mt-10 p-6 bg-[#BFEAF7]/30 border border-[#00C2E6]/20 rounded-2xl flex flex-col md:flex-row items-center justify-center gap-4 text-center md:text-left">
+        <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center text-[#00C2E6] shadow-sm">
+          <Clock className="w-6 h-6" />
+        </div>
+        <div>
+          <h4 className="text-[#003D52] font-bold text-lg">Processing Time</h4>
+          <p className="text-[#005C75] font-medium">Processing time takes minimum <span className="text-[#FF2A2A] font-bold">3–4 working days</span></p>
+        </div>
+      </div>
+    </div>
+
+    <div className="mb-14">
+      <div className="flex items-center gap-3 mb-6">
+        <div className="w-10 h-10 rounded-full bg-[#00C2E6]/10 flex items-center justify-center text-[#00C2E6]">
+          <Sparkles className="w-5 h-5" />
+        </div>
+        <h2 className="text-2xl font-bold text-[#003D52]">Visa Fee Structure</h2>
+      </div>
+      
+      <div className="overflow-x-auto rounded-2xl border border-slate-200 bg-white shadow-sm">
+        <table className="w-full text-left border-collapse">
+          <thead>
+            <tr className="bg-slate-50 border-b border-slate-200">
+              <th className="p-4 font-bold text-[#003D52] text-sm uppercase tracking-wider">Visa Type</th>
+              <th className="p-4 font-bold text-[#003D52] text-sm uppercase tracking-wider">Visa Fee (INR)</th>
+              <th className="p-4 font-bold text-[#003D52] text-sm uppercase tracking-wider">VFS & Courier Charges (INR)</th>
+              <th className="p-4 font-bold text-[#003D52] text-sm uppercase tracking-wider">Handling Charges (INR)</th>
+              <th className="p-4 font-bold text-[#003D52] text-sm uppercase tracking-wider">Total Amount (INR)</th>
+            </tr>
+          </thead>
+          <tbody className="text-slate-600">
+            <tr className="border-b border-slate-100 hover:bg-slate-50 transition-colors">
+              <td className="p-4 font-semibold text-[#003D52]">30 Day's visa</td>
+              <td className="p-4">11,987.50</td>
+              <td className="p-4">0.00</td>
+              <td className="p-4">0.00</td>
+              <td className="p-4 font-bold text-[#FF2A2A]">11,987.50</td>
+            </tr>
+            <tr className="hover:bg-slate-50 transition-colors">
+              <td className="p-4 font-semibold text-[#003D52]">1 Year visa</td>
+              <td className="p-4">19,987.50</td>
+              <td className="p-4">0.00</td>
+              <td className="p-4">0.00</td>
+              <td className="p-4 font-bold text-[#FF2A2A]">19,987.50</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
 
     <div className="bg-gradient-to-br from-[#003D52] to-[#005C75] rounded-3xl p-10 text-center">

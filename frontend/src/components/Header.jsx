@@ -42,12 +42,18 @@ const Header = () => {
     <header className="sticky top-0 z-50 w-full">
       <div className="hidden md:block bg-[#003D52] text-white text-xs">
         <div className="max-w-7xl mx-auto px-6 py-2.5 flex justify-between items-center">
-          <div className="flex items-center gap-7">
-            <a href="tel:+919959940008" className="flex items-center gap-2 hover:text-[#00C2E6] transition-colors">
-              <Phone className="w-3.5 h-3.5" /> +91 99599 40008
+          <div className="flex items-center gap-6">
+            <a href="tel:+919959940008" className="flex items-center gap-1.5 hover:text-[#00C2E6] transition-colors">
+              <Phone className="w-3 h-3" /> +91 99599 40008
             </a>
-            <a href="mailto:info@banjaratours.in" className="flex items-center gap-2 hover:text-[#00C2E6] transition-colors">
-              <Mail className="w-3.5 h-3.5" /> info@banjaratours.in
+            <a href="tel:+917842964008" className="flex items-center gap-1.5 hover:text-[#00C2E6] transition-colors border-l border-white/20 pl-3">
+              <Phone className="w-3 h-3" /> 78429 64008
+            </a>
+            <a href="tel:+919515162008" className="flex items-center gap-1.5 hover:text-[#00C2E6] transition-colors border-l border-white/20 pl-3">
+              <Phone className="w-3 h-3" /> 95151 62008
+            </a>
+            <a href="mailto:banjaratrvel@gmail.com" className="flex items-center gap-1.5 hover:text-[#00C2E6] transition-colors border-l border-white/20 pl-3">
+              <Mail className="w-3 h-3" /> banjaratrvel@gmail.com
             </a>
           </div>
           <div className="flex items-center gap-5">
@@ -76,12 +82,11 @@ const Header = () => {
           <Link to="/" className="flex items-center gap-2.5 group flex-shrink-0">
             <img
               src="/assets/logo.webp"
-              alt="Banjara Tours and Travels"
+              alt="BanjaraTravels"
               className="w-12 h-12 object-contain group-hover:scale-105 transition-transform"
             />
             <div className="leading-tight">
-              <div className="font-bold text-[#003D52] text-lg tracking-tight">Banjara Tours</div>
-              <div className="text-[10px] uppercase tracking-widest text-[#FF2A2A] font-semibold">& Travels</div>
+              <div className="font-bold text-[#003D52] text-lg tracking-tight">BanjaraTravels</div>
             </div>
           </Link>
 
