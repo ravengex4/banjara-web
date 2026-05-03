@@ -20,7 +20,7 @@ const Tickets = () => {
     to: '',
     departure: '',
     returnDate: '',
-    travellers: '1',
+    travellers: 1,
     classType: 'Economy'
   });
 
@@ -30,7 +30,7 @@ const Tickets = () => {
   const { toast } = useToast();
 
   const updateDetails = (k, v) => setDetails(prev => ({ ...prev, [k]: v }));
-  
+
   // Auto-generate message when modal opens
   useEffect(() => {
     if (showModal) {
@@ -47,45 +47,61 @@ const Tickets = () => {
       toast({ title: 'Missing Information', description: 'Please fill all required fields.' });
       return;
     }
-    
-    // Construct the final message for Formspree
+
     const depDate = formatDate(details.departure);
     const retDate = formatDate(details.returnDate);
-    const finalMessage = `So and so wants ticket from ${details.from} to ${details.to} on ${depDate}\n${tripType === 'Round Trip' ? `Return Date: ${retDate}\n` : ''}Travellers: ${details.travellers}\nClass: ${details.classType}\n\nAdditional Note:\n${contact.message}`;
+    const finalMessage = `Flight Enquiry from ${contact.name}
+
+From: ${details.from || 'Not specified'}
+To: ${details.to || 'Not specified'}
+Departure: ${depDate || 'Not specified'}
+${tripType === 'Round Trip' ? `Return Date: ${retDate || 'Not specified'}\n` : ''}Travellers: ${details.travellers}
+Class: ${details.classType}
+Phone: ${contact.phone}
+
+Additional Notes:
+${contact.message || 'None'}`;
 
     setSubmitting(true);
     try {
-      const response = await fetch('https://formspree.io/f/xkoyojnl', {
+      // Web3Forms API — get your free key at web3forms.com
+      const response = await fetch('https://api.web3forms.com/submit', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json'
         },
         body: JSON.stringify({
-          _subject: 'New Flight Ticket Enquiry Received',
+          access_key: process.env.REACT_APP_WEB3FORMS_KEY || '1bf6277e-2498-40bc-a1d9-b5c07dac567e',
+          subject: `Flight Ticket Enquiry — ${contact.name}`,
+          from_name: contact.name,
           name: contact.name,
           email: contact.email,
+          replyto: 'banjaratravel@gmail.com',
           phone: contact.phone,
           message: finalMessage,
-          from_city: details.from,
-          to_city: details.to,
-          departure_date: depDate,
-          return_date: retDate,
-          travellers: details.travellers,
-          class: details.classType
+          botcheck: ''
         })
       });
 
-      if (response.ok) {
+      const result = await response.json();
+      console.log('Web3Forms Response:', result);
+
+      if (result.success) {
         toast({ title: 'Enquiry Sent!', description: 'Our team will contact you shortly regarding your ticket enquiry ✈️' });
         setTimeout(() => {
           setShowModal(false);
           setContact({ name: '', email: '', phone: '', message: '' });
         }, 2000);
       } else {
-        toast({ title: 'Submission Failed', description: 'Please try again later.', variant: 'destructive' });
+        toast({
+          title: 'Submission Failed',
+          description: result.message || 'Something went wrong. Please try again.',
+          variant: 'destructive'
+        });
       }
     } catch (err) {
+      console.error('Submission error:', err);
       toast({ title: 'Submission Failed', description: 'Please check your internet connection and try again.', variant: 'destructive' });
     } finally {
       setSubmitting(false);
@@ -98,9 +114,9 @@ const Tickets = () => {
   const handleCityChange = (field, value) => {
     updateDetails(field, value);
     if (value.trim().length > 0) {
-      const filtered = MAJOR_CITIES.filter(city => 
-        city.toLowerCase().includes(value.toLowerCase())
-      );
+      const filtered = MAJOR_CITIES.filter(city =>
+        city.toLowerCase().startsWith(value.toLowerCase())
+      ).slice(0, 10);
       setSuggestions(prev => ({ ...prev, [field]: filtered }));
       setActiveField(field);
     } else {
@@ -145,9 +161,9 @@ const Tickets = () => {
                 <Label className="text-[#003D52] font-semibold flex items-center gap-2">
                   <MapPin className="w-4 h-4 text-[#FF2A2A]" /> From
                 </Label>
-                <Input 
-                  placeholder="Departure City" 
-                  value={details.from} 
+                <Input
+                  placeholder="Departure City"
+                  value={details.from}
                   onChange={e => handleCityChange('from', e.target.value)}
                   onFocus={() => details.from && handleCityChange('from', details.from)}
                   onBlur={() => setTimeout(() => setActiveField(null), 200)}
@@ -171,9 +187,9 @@ const Tickets = () => {
                 <Label className="text-[#003D52] font-semibold flex items-center gap-2">
                   <MapPin className="w-4 h-4 text-[#00C2E6]" /> To
                 </Label>
-                <Input 
-                  placeholder="Destination City" 
-                  value={details.to} 
+                <Input
+                  placeholder="Destination City"
+                  value={details.to}
                   onChange={e => handleCityChange('to', e.target.value)}
                   onFocus={() => details.to && handleCityChange('to', details.to)}
                   onBlur={() => setTimeout(() => setActiveField(null), 200)}
@@ -200,22 +216,22 @@ const Tickets = () => {
                 <Label className="text-[#003D52] font-semibold flex items-center gap-2">
                   <Calendar className="w-4 h-4 text-[#FF2A2A]" /> Departure
                 </Label>
-                <Input 
-                  type="date" 
-                  value={details.departure} 
+                <Input
+                  type="date"
+                  value={details.departure}
                   onChange={e => updateDetails('departure', e.target.value)}
                   className="h-12"
                 />
               </div>
-              
+
               {tripType === 'Round Trip' && (
                 <div className="space-y-2 transition-all">
                   <Label className="text-[#003D52] font-semibold flex items-center gap-2">
                     <Calendar className="w-4 h-4 text-[#FF2A2A]" /> Return
                   </Label>
-                  <Input 
-                    type="date" 
-                    value={details.returnDate} 
+                  <Input
+                    type="date"
+                    value={details.returnDate}
                     onChange={e => updateDetails('returnDate', e.target.value)}
                     className="h-12"
                   />
@@ -226,16 +242,25 @@ const Tickets = () => {
                 <Label className="text-[#003D52] font-semibold flex items-center gap-2">
                   <Users className="w-4 h-4 text-[#FF2A2A]" /> Travellers
                 </Label>
-                <Select value={details.travellers} onValueChange={v => updateDetails('travellers', v)}>
-                  <SelectTrigger className="h-12">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {[1,2,3,4,5,6,7,8,9].map(n => (
-                      <SelectItem key={n} value={n.toString()}>{n} Traveller{n > 1 ? 's' : ''}</SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+                <div className="flex items-center gap-1 h-12 bg-white border border-slate-200 rounded-md px-2">
+                  <button
+                    type="button"
+                    onClick={() => updateDetails('travellers', Math.max(1, details.travellers - 1))}
+                    className="w-8 h-8 flex items-center justify-center rounded-md hover:bg-slate-100 text-[#003D52] font-bold border border-slate-100"
+                  >
+                    -
+                  </button>
+                  <div className="flex-1 text-center font-semibold text-sm">
+                    {details.travellers}
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => updateDetails('travellers', details.travellers + 1)}
+                    className="w-8 h-8 flex items-center justify-center rounded-md hover:bg-slate-100 text-[#003D52] font-bold border border-slate-100"
+                  >
+                    +
+                  </button>
+                </div>
               </div>
 
               <div className="space-y-2">
@@ -256,7 +281,7 @@ const Tickets = () => {
               </div>
             </div>
 
-            <Button 
+            <Button
               onClick={() => {
                 if (!details.from || !details.to || !details.departure) {
                   toast({ title: 'Quick Tip', description: 'Fill in travel cities and date to get started!' });
@@ -299,7 +324,7 @@ const Tickets = () => {
                 <h3 className="text-xl font-bold">Complete Your Enquiry</h3>
                 <p className="text-xs text-slate-300 mt-1">Our travel expert will contact you with the best fares.</p>
               </div>
-              <button 
+              <button
                 onClick={() => setShowModal(false)}
                 className="w-10 h-10 rounded-full hover:bg-white/10 flex items-center justify-center transition-colors"
               >
@@ -309,69 +334,70 @@ const Tickets = () => {
 
             <div className="p-8">
               <form onSubmit={onFormSubmit} className="space-y-4">
+                <div className="space-y-2">
+                  <Label className="text-sm font-semibold">Full Name *</Label>
+                  <Input
+                    required
+                    name="name"
+                    value={contact.name}
+                    onChange={e => setContact(prev => ({ ...prev, name: e.target.value }))}
+                    placeholder="Enter your name"
+                    className="h-11"
+                  />
+                </div>
+                <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <Label className="text-sm font-semibold">Full Name *</Label>
-                    <Input 
-                      required 
-                      name="name"
-                      value={contact.name} 
-                      onChange={e => setContact(prev => ({ ...prev, name: e.target.value }))}
-                      placeholder="Enter your name" 
+                    <Label className="text-sm font-semibold">Phone Number *</Label>
+                    <Input
+                      required
+                      type="tel"
+                      name="phone"
+                      value={contact.phone}
+                      onChange={e => setContact(prev => ({ ...prev, phone: e.target.value.replace(/[^0-9]/g, '') }))}
+                      placeholder="Enter phone number"
                       className="h-11"
                     />
                   </div>
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="space-y-2">
-                      <Label className="text-sm font-semibold">Phone Number *</Label>
-                      <Input 
-                        required 
-                        name="phone"
-                        value={contact.phone} 
-                        onChange={e => setContact(prev => ({ ...prev, phone: e.target.value }))}
-                        placeholder="+91" 
-                        className="h-11"
-                      />
-                    </div>
-                    <div className="space-y-2">
-                      <Label className="text-sm font-semibold">Email *</Label>
-                      <Input 
-                        required 
-                        type="email" 
-                        name="email"
-                        value={contact.email} 
-                        onChange={e => setContact(prev => ({ ...prev, email: e.target.value }))}
-                        placeholder="your@email.com" 
-                        className="h-11"
-                      />
-                    </div>
-                  </div>
                   <div className="space-y-2">
-                    <Label className="text-sm font-semibold">Message</Label>
-                    <Textarea 
-                      rows={4} 
-                      name="message"
-                      value={contact.message} 
-                      onChange={e => setContact(prev => ({ ...prev, message: e.target.value }))}
-                      placeholder="Any specific airlines or timing preferences?"
-                      className="resize-none"
+                    <Label className="text-sm font-semibold">Email *</Label>
+                    <Input
+                      required
+                      type="email"
+                      name="email"
+                      value={contact.email}
+                      onChange={e => setContact(prev => ({ ...prev, email: e.target.value }))}
+                      placeholder="your@email.com"
+                      className="h-11"
                     />
                   </div>
-                  <Button 
-                    type="submit" 
-                    disabled={submitting}
-                    className="w-full h-12 bg-[#FF2A2A] hover:bg-[#E01F1F] text-white font-bold rounded-xl gap-2 mt-2"
-                  >
-                    {submitting ? (
-                      <>
-                        <Loader2 className="w-4 h-4 animate-spin" /> Sending...
-                      </>
-                    ) : (
-                      <>
-                        Confirm Enquiry <Send className="w-4 h-4" />
-                      </>
-                    )}
-                  </Button>
-                </form>
+                </div>
+                <div className="space-y-2">
+                  <Label className="text-sm font-semibold">Message</Label>
+                  <Textarea
+                    rows={4}
+                    name="message"
+                    value={contact.message}
+                    onChange={e => setContact(prev => ({ ...prev, message: e.target.value }))}
+                    placeholder="Any specific airlines or timing preferences?"
+                    className="resize-none"
+                  />
+                </div>
+                <Button
+                  type="submit"
+                  disabled={submitting}
+                  className="w-full h-12 bg-[#FF2A2A] hover:bg-[#E01F1F] text-white font-bold rounded-xl gap-2 mt-2"
+                >
+                  {submitting ? (
+                    <>
+                      <Loader2 className="w-4 h-4 animate-spin" /> Sending...
+                    </>
+                  ) : (
+                    <>
+                      Confirm Enquiry <Send className="w-4 h-4" />
+                    </>
+                  )}
+                </Button>
+              </form>
             </div>
           </div>
         </div>

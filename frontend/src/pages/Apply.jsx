@@ -26,9 +26,9 @@ const stepsList = [
 ];
 
 const getRequirements = (countryName, visaType) => {
-  const match = visaDataJson.find(v => v.Country === countryName && (!visaType || v['Visa Type'] === visaType)) 
+  const match = visaDataJson.find(v => v.Country === countryName && (!visaType || v['Visa Type'] === visaType))
     || visaDataJson.find(v => v.Country === countryName);
-  
+
   if (match && match['Key Documents Needed']) {
     return {
       docs: match['Key Documents Needed'].split(',').map(d => d.trim()),
@@ -62,14 +62,14 @@ const Apply = () => {
   const { toast } = useToast();
   const location = useLocation();
   const update = (k, v) => setData(d => ({ ...d, [k]: v }));
-  
+
   const [countrySuggestions, setCountrySuggestions] = useState([]);
   const [showCountrySuggestions, setShowCountrySuggestions] = useState(false);
 
   const handleCountryChange = (val) => {
     update('country', val);
     if (val.trim().length > 0) {
-      const filtered = WORLD_COUNTRIES.filter(c => c.toLowerCase().includes(val.toLowerCase()));
+      const filtered = WORLD_COUNTRIES.filter(c => c.toLowerCase().startsWith(val.toLowerCase())).slice(0, 10);
       setCountrySuggestions(filtered);
       setShowCountrySuggestions(true);
     } else {
@@ -88,7 +88,7 @@ const Apply = () => {
       if (location.state.country) update('country', location.state.country);
       if (location.state.visaType) update('visaType', location.state.visaType);
       if (location.state.consulate) update('consulate', location.state.consulate);
-      
+
       if (location.state.country && location.state.visaType && location.state.consulate) {
         setStep(2);
       }
@@ -109,33 +109,41 @@ const Apply = () => {
     if (step === 3) {
       setSubmitting(true);
       try {
-        const formData = new FormData();
-        formData.append('_subject', 'New Visa Application Received');
-        formData.append('name', data.name);
-        formData.append('email', data.email);
-        formData.append('phone', data.phone);
-        formData.append('country', data.country);
-        formData.append('visa_type', data.visaType);
-        formData.append('consulate', data.consulate);
-        formData.append('dob', formatDate(data.dob));
-        formData.append('passport', data.passport);
-        formData.append('nationality', data.nationality);
-        formData.append('notes', data.notes);
+        const visaMessage = `New Visa Application\n\nApplicant: ${data.name}\nEmail: ${data.email}\nPhone: ${data.phone}\nDestination Country: ${data.country}\nVisa Type: ${data.visaType}\nConsulate: ${data.consulate}\nDate of Birth: ${formatDate(data.dob) || 'Not provided'}\nPassport Number: ${data.passport || 'Not provided'}\nNationality: ${data.nationality || 'Not provided'}\n\nAdditional Notes:\n${data.notes || 'None'}`;
 
-
-        const response = await fetch('https://formspree.io/f/xeenoajz', {
+        // Web3Forms API — get your free key at web3forms.com
+        const response = await fetch('https://api.web3forms.com/submit', {
           method: 'POST',
           headers: {
+            'Content-Type': 'application/json',
             'Accept': 'application/json'
           },
-          body: formData
+          body: JSON.stringify({
+            access_key: process.env.REACT_APP_WEB3FORMS_KEY || '1bf6277e-2498-40bc-a1d9-b5c07dac567e',
+            subject: `New Visa Application — ${data.name} (${data.country})`,
+            from_name: data.name,
+            name: data.name,
+            email: data.email,
+            replyto: 'banjaratravel@gmail.com',
+            phone: data.phone,
+            message: visaMessage,
+            botcheck: ''
+          })
         });
-        if (response.ok) {
+
+        const result = await response.json();
+        console.log('Web3Forms Response:', result);
+        if (result.success) {
           setSucceeded(true);
         } else {
-          toast({ title: 'Submission Failed', description: 'Failed to submit the form. Please try again.', variant: 'destructive' });
+          toast({
+            title: 'Submission Failed',
+            description: result.message || 'Something went wrong. Please try again.',
+            variant: 'destructive'
+          });
         }
       } catch (err) {
+        console.error('Submission error:', err);
         toast({ title: 'Submission Failed', description: 'Please check your internet connection and try again.', variant: 'destructive' });
       } finally {
         setSubmitting(false);
@@ -145,7 +153,7 @@ const Apply = () => {
     if (step < 3) setStep(s => s + 1);
   };
   const back = () => step > 1 && setStep(s => s - 1);
-  
+
   const currentReqs = getRequirements(data.country, data.visaType);
   const currentStep = succeeded ? 4 : step;
 
@@ -168,9 +176,8 @@ const Apply = () => {
             return (
               <React.Fragment key={s.id}>
                 <div className="flex flex-col items-center gap-2 flex-shrink-0">
-                  <div className={`w-12 h-12 rounded-full flex items-center justify-center transition-all ${
-                    completed ? 'bg-[#FF2A2A] text-white' : active ? 'bg-[#003D52] text-white ring-4 ring-[#003D52]/15' : 'bg-slate-200 text-slate-500'
-                  }`}>
+                  <div className={`w-12 h-12 rounded-full flex items-center justify-center transition-all ${completed ? 'bg-[#FF2A2A] text-white' : active ? 'bg-[#003D52] text-white ring-4 ring-[#003D52]/15' : 'bg-slate-200 text-slate-500'
+                    }`}>
                     {completed ? <Check className="w-5 h-5" /> : <Icon className="w-5 h-5" />}
                   </div>
                   <div className={`text-xs font-semibold ${active || completed ? 'text-[#003D52]' : 'text-slate-400'}`}>{s.label}</div>
@@ -191,12 +198,12 @@ const Apply = () => {
             <p className="text-sm text-slate-600 mb-6">Pick your destination and visa type to begin.</p>
             <div className="relative">
               <Label className="text-[#003D52] font-medium mb-2 block">Destination Country *</Label>
-              <Input 
-                value={data.country} 
+              <Input
+                value={data.country}
                 onChange={(e) => handleCountryChange(e.target.value)}
                 onFocus={() => data.country && handleCountryChange(data.country)}
                 onBlur={() => setTimeout(() => setShowCountrySuggestions(false), 200)}
-                placeholder="Type to search country..." 
+                placeholder="Type to search country..."
                 className="h-12"
               />
               {showCountrySuggestions && countrySuggestions.length > 0 && (
@@ -243,22 +250,17 @@ const Apply = () => {
             <h2 className="text-2xl font-bold text-[#003D52] mb-1">Your details</h2>
             <p className="text-sm text-slate-600 mb-6">We'll use these details to set up your application.</p>
             <div className="grid sm:grid-cols-2 gap-4">
-              <div><Label className="text-[#003D52] font-medium mb-2 block">Full Name *</Label><Input value={data.name} onChange={(e) => update('name', e.target.value)} className="h-11" /></div>
-              <div><Label className="text-[#003D52] font-medium mb-2 block">Email *</Label><Input type="email" value={data.email} onChange={(e) => update('email', e.target.value)} className="h-11" /></div>
+              <div><Label className="text-[#003D52] font-medium mb-2 block">Full Name *</Label><Input name="name" value={data.name} onChange={(e) => update('name', e.target.value)} className="h-11" /></div>
+              <div><Label className="text-[#003D52] font-medium mb-2 block">Email *</Label><Input name="email" type="email" value={data.email} onChange={(e) => update('email', e.target.value)} className="h-11" /></div>
               <div>
                 <Label className="text-[#003D52] font-medium mb-2 block">Phone *</Label>
-                <Input 
-                  type="tel" 
-                  value={data.phone} 
-                  onFocus={(e) => { if (!data.phone) update('phone', '+91'); }}
-                  onChange={(e) => {
-                    let val = e.target.value;
-                    if (!val.startsWith('+91')) val = '+91' + val.replace(/^\+91/, '');
-                    val = val.replace(/[^\d+]/g, '');
-                    update('phone', val);
-                  }} 
-                  className="h-11" 
-                  placeholder="+919876543210"
+                <Input
+                  type="tel"
+                  name="phone"
+                  value={data.phone}
+                  onChange={(e) => update('phone', e.target.value.replace(/[^0-9]/g, ''))}
+                  className="h-11"
+                  placeholder="Enter phone number"
                 />
               </div>
               <div><Label className="text-[#003D52] font-medium mb-2 block">Date of Birth</Label><Input type="date" value={data.dob} onChange={(e) => update('dob', e.target.value)} className="h-11" /></div>
@@ -287,7 +289,7 @@ const Apply = () => {
               <h2 className="text-2xl font-bold text-[#003D52] mb-1">Review Visa Requirements</h2>
               <p className="text-sm text-slate-600">Please review the required documents before submitting your application.</p>
             </div>
-            
+
             <div className="bg-[#003D52]/5 rounded-xl p-5 border border-[#003D52]/10 mb-6">
               <div className="flex items-center gap-2 mb-3">
                 <FileCheck className="w-5 h-5 text-[#003D52]" />

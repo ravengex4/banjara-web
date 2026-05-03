@@ -20,6 +20,7 @@ import B2B from './pages/B2B';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import AuthCallback from './pages/AuthCallback';
+import DebugForm from './pages/DebugForm';
 
 import AdminLayout from './pages/admin/AdminLayout';
 import AdminOverview from './pages/admin/AdminOverview';
@@ -48,6 +49,7 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/auth/callback" element={<AuthCallback />} />
+            <Route path="/debug-form" element={<DebugForm />} />
 
             <Route path="/admin" element={<RequireAdmin><AdminLayout /></RequireAdmin>}>
               <Route index element={<AdminOverview />} />
