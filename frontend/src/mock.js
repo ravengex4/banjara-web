@@ -1,11 +1,11 @@
 // Mock data for BanjaraTravels
 
 export const countryVisas = [
-  { id: 1, name: 'United Arab Emirates', flag_url: 'https://flagcdn.com/w320/ae.png', visa_type: 'Tourist Visa', processing_time: '4 Working days', visa_format: 'e-Visa', price: 'INR 8,200', popular: true },
+  { id: 1, name: 'United Arab Emirates', flag_url: 'https://flagcdn.com/w320/ae.png', visa_type: 'Tourist / Multi-Entry / 5-Year', processing_time: '2-4 Working days', visa_format: 'e-Visa', price: 'From INR 8,250', popular: true },
   { id: 2, name: 'United Kingdom', flag_url: 'https://flagcdn.com/w320/gb.png', visa_type: 'Tourist Visa', processing_time: '30 Working days', visa_format: 'Stamp Visa', price: 'INR 29,000' },
   { id: 3, name: 'Switzerland', flag_url: 'https://flagcdn.com/w320/ch.png', visa_type: 'Business Visa', processing_time: '15 Working days', visa_format: 'Stamp Visa', price: 'INR 14,904' },
   { id: 4, name: 'Singapore', flag_url: 'https://flagcdn.com/w320/sg.png', visa_type: 'Business Visa', processing_time: '10 Working days', visa_format: 'e-Visa', price: 'INR 9,900' },
-  { id: 5, name: 'Qatar', flag_url: 'https://flagcdn.com/w320/qa.png', visa_type: 'Tourist Visa', processing_time: '4 Working days', visa_format: 'e-Visa', price: 'INR 3,000' },
+  { id: 5, name: 'Qatar', flag_url: 'https://flagcdn.com/w320/qa.png', visa_type: 'Tourist Visa', processing_time: '4 Working days', visa_format: 'e-Visa', price: 'INR 3,500' },
   { id: 6, name: 'Kenya', flag_url: 'https://flagcdn.com/w320/ke.png', visa_type: 'Tourist Visa', processing_time: '4 Working days', visa_format: 'e-Visa', price: 'INR 4,300' },
   { id: 7, name: 'Jordan', flag_url: 'https://flagcdn.com/w320/jo.png', visa_type: 'Tourist Visa', processing_time: '1 Working Day', visa_format: 'e-Visa', price: 'INR 7,590' },
   { id: 8, name: 'United States', flag_url: 'https://flagcdn.com/w320/us.png', visa_type: 'Tourist Visa', processing_time: '10-15 Days after Appt.', visa_format: 'Stamp Visa', price: 'INR 29,000', popular: true },
@@ -22,7 +22,9 @@ export const countryVisas = [
   { id: 19, name: 'Malaysia', flag_url: 'https://flagcdn.com/w320/my.png', visa_type: 'Tourist Visa', processing_time: '4 Working days', visa_format: 'e-Visa', price: 'INR 3,200' },
   { id: 20, name: 'Vietnam', flag_url: 'https://flagcdn.com/w320/vn.png', visa_type: 'Tourist Visa', processing_time: '5 Working days', visa_format: 'e-Visa', price: 'INR 4,250' },
   { id: 21, name: 'Cambodia', flag_url: 'https://flagcdn.com/w320/kh.png', visa_type: 'Tourist Visa', processing_time: '3 Working days', visa_format: 'e-Visa', price: 'INR 4,900' },
-  { id: 22, name: 'Oman', flag_url: 'https://flagcdn.com/w320/om.png', visa_type: 'Tourist Visa', processing_time: '3 Working days', visa_format: 'e-Visa', price: 'INR 3,500' },
+  { id: 22, name: 'Oman', flag_url: 'https://flagcdn.com/w320/om.png', visa_type: 'Tourist Visa', processing_time: '3 Working days', visa_format: 'e-Visa', price: 'From INR 3,700' },
+  { id: 23, name: 'Kuwait', flag_url: 'https://flagcdn.com/w320/kw.png', visa_type: 'Tourist / GCC Residents', processing_time: '5 Working days', visa_format: 'e-Visa', price: 'From INR 8,050', popular: true },
+  { id: 24, name: 'Bahrain', flag_url: 'https://flagcdn.com/w320/bh.png', visa_type: 'Tourist Visa', processing_time: '2-3 Working days', visa_format: 'e-Visa', price: 'From INR 5,850' },
 ];
 
 export const services = [

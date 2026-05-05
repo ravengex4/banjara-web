@@ -1,7 +1,7 @@
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
 
-const SITE_URL = 'https://explore-banjara.preview.emergentagent.com';
+const SITE_URL = 'https://banjaratravels.in';
 const SITE_NAME = 'BanjaraTravels';
 const DEFAULT_DESC = 'India\'s most trusted visa consultancy. Apply visa for 150+ countries with transparent pricing, expert document review, real-time tracking and on-time delivery.';
 const LOGO = `${SITE_URL}/assets/logo.webp`;
