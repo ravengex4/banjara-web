@@ -154,7 +154,22 @@ const Apply = () => {
   };
   const back = () => step > 1 && setStep(s => s - 1);
 
-  const currentReqs = getRequirements(data.country, data.visaType);
+  const currentReqs = (() => {
+    // 1. Try to match against live DB countries — admin may have set custom requirements
+    const dbMatch = countries.find(c =>
+      (c.name || c.country || '').toLowerCase() === data.country.toLowerCase()
+    );
+    if (dbMatch) {
+      try {
+        const meta = dbMatch.notes ? JSON.parse(dbMatch.notes) : null;
+        if (meta?.requirements?.length) {
+          return { docs: meta.requirements, time: dbMatch.processing_time || '7-14 days' };
+        }
+      } catch (_) {}
+    }
+    // 2. Fall back to static visaRequirements.json
+    return getRequirements(data.country, data.visaType);
+  })();
   const currentStep = succeeded ? 4 : step;
 
 

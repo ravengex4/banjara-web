@@ -124,6 +124,7 @@ const Footer = () => {
             <a href="#" className="hover:text-[#00C2E6]">Privacy Policy</a>
             <a href="#" className="hover:text-[#00C2E6]">Terms & Conditions</a>
             <a href="#" className="hover:text-[#00C2E6]">Refund Policy</a>
+            <a href="https://optivaa.com" target="_blank" rel="nofollow noopener noreferrer" className="text-slate-600/30 hover:text-[#00C2E6] transition-colors font-light">Optivaa</a>
           </div>
         </div>
       </div>

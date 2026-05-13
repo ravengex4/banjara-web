@@ -3,7 +3,7 @@ import { Helmet } from 'react-helmet-async';
 
 const SITE_URL = 'https://banjaratravels.in';
 const SITE_NAME = 'BanjaraTravels';
-const DEFAULT_DESC = 'India\'s most trusted visa consultancy. Apply visa for 150+ countries with transparent pricing, expert document review, real-time tracking and on-time delivery.';
+const DEFAULT_DESC = 'India\'s trusted visa consultancy. Apply for visas to 150+ countries with transparent pricing, expert review, real-time tracking, and on-time delivery.';
 const LOGO = `${SITE_URL}/assets/logo.webp`;
 const OG_IMAGE = `${SITE_URL}/assets/og-image.png`;
 
@@ -15,7 +15,7 @@ export const SEO = ({
   jsonLd = [],
   noIndex = false,
 }) => {
-  const fullTitle = title ? `${title} | ${SITE_NAME}` : `${SITE_NAME} — Visa Consultancy & Travel Documentation in India`;
+  const fullTitle = title ? `${title} | ${SITE_NAME}` : `${SITE_NAME} — Trusted Visa Consultancy & Travel Agents`;
   const url = `${SITE_URL}${path}`;
   const ldArr = Array.isArray(jsonLd) ? jsonLd : [jsonLd];
 
